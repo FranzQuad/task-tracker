@@ -13,24 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class ProjectController {
+public class MyProjectsController {
 
-	@Autowired
-	private ProjectRepository projectRepository;
-	
-	@GetMapping("/welcome")
-	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-		name = "AizaT";
-		model.addAttribute("name", name);
-		return "index";
-	}
-	
-	@RequestMapping(value="/projects", method=RequestMethod.GET)
-	public String projects(Model model)
-	{
-	   List<Project> projects = (List<Project>) projectRepository.findAll();
-	   model.addAttribute("projects", projects);
-	   return "projects";//here your name of your view (html)
+	@GetMapping("/myprojects")
+	public String addProject(Model model) {
+
+		return "myprojects";
 	}
 	
 }
