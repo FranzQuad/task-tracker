@@ -1,0 +1,89 @@
+CREATE TABLE "user"
+(
+	id BIGSERIAL PRIMARY KEY
+	,"name" VARCHAR(100) NOT NULL
+	,email VARCHAR(320) NOT NULL
+	,login VARCHAR(100) NOT NULL
+	,password_hash VARCHAR(100) NOT NULL 
+);
+
+CREATE TABLE Project
+(
+	id BIGSERIAL PRIMARY KEY
+	,"name" VARCHAR(300) NOT NULL
+	,created_by BIGINT
+	,started TIMESTAMP NOT NULL
+	,closed TIMESTAMP
+);
+
+CREATE TABLE ProjectRole
+(
+	id BIGSERIAL PRIMARY KEY
+	,"name" VARCHAR(150) NOT NULL
+);
+
+CREATE TABLE ProjectParticipant
+(
+	id BIGSERIAL PRIMARY KEY
+	,project BIGINT REFERENCES Project(id)
+	,"user" BIGINT REFERENCES "user"(id)
+	,project_role BIGINT REFERENCES ProjectRole(id)
+	,joined TIMESTAMP NOT NULL
+	,"left" TIMESTAMP
+);
+
+CREATE TABLE Board
+(
+	id BIGSERIAL PRIMARY KEY
+	,"name" VARCHAR(150) NOT NULL
+	,project BIGINT NOT NULL REFERENCES Project(id)
+);
+
+CREATE TABLE IssueType
+(
+	id BIGSERIAL PRIMARY KEY
+	,"name" VARCHAR(150) NOT NULL
+);
+
+CREATE TABLE Issue
+(
+	id BIGSERIAL PRIMARY KEY
+	,"name" VARCHAR(500) NOT NULL
+	,project BIGINT REFERENCES Project(id)
+	,started TIMESTAMP NOT NULL
+	,finished TIMESTAMP
+	,stauts INT NOT NULL
+	,"type" BIGINT REFERENCES IssueType(id)
+	,board BIGINT REFERENCES Board(id)
+);
+
+CREATE TABLE IssueRole
+(
+	id BIGSERIAL PRIMARY KEY
+	,"name" VARCHAR(200) NOT NULL	
+);
+
+CREATE TABLE IssueParticipant
+(
+	issue BIGINT REFERENCES Issue(id)
+	,project_participant BIGINT REFERENCES ProjectParticipant(id) 
+	,issue_role BIGINT REFERENCES IssueRole(id)
+	,added TIMESTAMP NOT NULL
+	,PRIMARY KEY (issue, project_participant, issue_role)
+);
+
+CREATE TABLE IssueToIssueLink
+(
+	issue1 BIGINT REFERENCES Issue(id)
+	,issue2 BIGINT REFERENCES Issue(id)
+	,PRIMARY KEY (issue1, issue2)
+
+);
+
+CREATE TABLE IssueLabel
+(
+	id BIGSERIAL PRIMARY KEY
+	,issue BIGINT REFERENCES Issue(id)
+	,"name" VARCHAR(200) NOT NULL
+	,color VARCHAR(20) NOT NULL
+);

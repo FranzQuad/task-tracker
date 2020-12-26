@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Projects List</title>
+      <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+   </head>
+   <body>
+      <h1>Projects List</h1>
+      <a href="addproject">Add project</a>
+      <br/><br/>
+      <div>
+         <table border="1">
+            <tr>
+               <th>Id</th>
+               <th>Name</th>
+            </tr>
+            <tr th:each ="project : ${projects}">
+               <td th:utext="${project.id}">...</td>
+               <td th:utext="${project.name}">...</td>
+            </tr>
+         </table>
+      </div>
+      <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+	  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+	  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+   </body>
+</html>
