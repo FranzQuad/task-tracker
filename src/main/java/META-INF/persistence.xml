@@ -12,5 +12,7 @@
 		<class>com.pineapple.tasktracker.Projectparticipant</class>
 		<class>com.pineapple.tasktracker.Projectrole</class>
 		<class>com.pineapple.tasktracker.User</class>
+		<class>com.pineapple.tasktracker.model.Role</class>
+		<class>com.pineapple.tasktracker.model.User</class>
 	</persistence-unit>
 </persistence>

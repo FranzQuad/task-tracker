@@ -10,6 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="user", schema="public")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,9 +27,19 @@ public class User implements Serializable {
 	@Column(name="password_hash")
 	private String passwordHash;
 
-	//bi-directional many-to-one association to Projectparticipant
-	@OneToMany(mappedBy="userBean")
-	private List<Projectparticipant> projectparticipants;
+	//bi-directional many-to-many association to Role
+	@ManyToMany(fetch = FetchType.EAGER)
+	
+	@JoinTable(
+		name="userroles"
+		, joinColumns={
+			@JoinColumn(name="user_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="role_id")
+			}
+		)
+	private List<Role> roles;
 
 	public User() {
 	}
@@ -73,26 +84,12 @@ public class User implements Serializable {
 		this.passwordHash = passwordHash;
 	}
 
-	public List<Projectparticipant> getProjectparticipants() {
-		return this.projectparticipants;
+	public List<Role> getRoles() {
+		return this.roles;
 	}
 
-	public void setProjectparticipants(List<Projectparticipant> projectparticipants) {
-		this.projectparticipants = projectparticipants;
-	}
-
-	public Projectparticipant addProjectparticipant(Projectparticipant projectparticipant) {
-		getProjectparticipants().add(projectparticipant);
-		projectparticipant.setUserBean(this);
-
-		return projectparticipant;
-	}
-
-	public Projectparticipant removeProjectparticipant(Projectparticipant projectparticipant) {
-		getProjectparticipants().remove(projectparticipant);
-		projectparticipant.setUserBean(null);
-
-		return projectparticipant;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 }
