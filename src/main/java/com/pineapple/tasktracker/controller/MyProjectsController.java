@@ -46,7 +46,6 @@ public class MyProjectsController {
 		
 		User user = userRepository.findByName(username);
 		List<Projectparticipant> projectParticipants = (List<Projectparticipant>)projectParticipantRepository.findAllByUserBean_Id(user.getId());
-		System.out.println(projectParticipants.size());
 		List<Long> projectIds = new ArrayList<>();
 		for (Projectparticipant participant: projectParticipants) {
 			projectIds.add(participant.getProjectBean().getId());
