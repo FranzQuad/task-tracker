@@ -8,7 +8,7 @@
             <strong>PineappleTT</strong>
         </a>
         <button type="button" class="btn btn-dark" style="background-color: orange" data-toggle="modal" data-target="#newProject">New Project</button>
-        <button type="button" class="btn btn-dark" style="background-color: orange" data-toggle="modal" data-target="#myModal">New Task</button>
+        <button type="button" class="btn btn-dark" style="background-color: orange" data-toggle="modal" data-target="#newTask">New Task</button>
 
 
         <div style="margin-left: auto; font-size: 18px; color: white;">
@@ -45,6 +45,55 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="newTask" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Task</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3" style="margin-bottom: 10px;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Some Project Name</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Users</button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Some User Name</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Description</span>
+                        </div>
+                        <textarea class="form-control" aria-label="Project Description"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: orange">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Подключаем jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
