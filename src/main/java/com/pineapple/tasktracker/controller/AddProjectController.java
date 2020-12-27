@@ -9,7 +9,6 @@ public class AddProjectController {
 
     @GetMapping("/addproject")
     public String addProject(Model model) {
-
         return "addproject";
     }
 }

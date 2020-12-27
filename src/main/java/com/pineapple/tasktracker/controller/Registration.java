@@ -9,7 +9,6 @@ public class Registration {
 
     @GetMapping("/registration")
     public String greeting(Model model) {
-
         return "registration";
     }
 }

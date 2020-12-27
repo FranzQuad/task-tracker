@@ -1,6 +1,7 @@
 package com.pineapple.tasktracker.service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
 
-import com.pineapple.tasktracker.model.Role;
+import com.pineapple.tasktracker.model.enums.Role;
 import com.pineapple.tasktracker.model.User;
 import com.pineapple.tasktracker.repository.UserRepository;
 
@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
                 .collect(Collectors.toList());
     }
 
@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getName(),
-                user.getPasswordHash(),
-                mapRolesToAuthorities(user.getRoles()));
+                passwordEncoder.encode(user.getPassword()),
+                mapRolesToAuthorities(Collections.singleton(user.getRole())));
 	}
 }

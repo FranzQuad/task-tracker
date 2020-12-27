@@ -3,7 +3,6 @@ package com.pineapple.tasktracker.controller;
 import com.pineapple.tasktracker.model.Issue;
 import com.pineapple.tasktracker.model.Project;
 import com.pineapple.tasktracker.repository.IssueRepository;
-import com.pineapple.tasktracker.repository.IssuelabelRepository;
 import com.pineapple.tasktracker.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,6 @@ public class MyProjectsController {
 	{
 		List<Project> projects = (List<Project>) projectRepository.findAll();
 		List<Issue> issues = (List<Issue>) issueRepository.findAll();
-
 
 		model.addAttribute("projects", projects);
 		model.addAttribute("issues", issues);
