@@ -12,7 +12,7 @@
 
 
         <div style="margin-left: auto; font-size: 18px; color: white;">
-            User Name
+			<span th:text="${#authentication.getPrincipal().getUsername()}"></span>
             <form th:action="@{/logout}" method="post">
             	<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log out</button>
             </form>
