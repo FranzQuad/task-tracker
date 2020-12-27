@@ -1,5 +1,6 @@
 package com.pineapple.tasktracker.config;
 
+import com.pineapple.tasktracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Autowired
+    public UserService userService;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
