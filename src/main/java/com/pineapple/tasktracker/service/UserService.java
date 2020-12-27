@@ -25,8 +25,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email);
+    public User findByEmail(String name){
+        return userRepository.findByName(name);
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
@@ -40,11 +40,12 @@ public class UserService implements UserDetailsService {
 		// TODO Auto-generated method stub
         User user = userRepository.findByEmail(username);
         if (user == null){
+        	System.out.println("Hello");
+        	
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+        return new org.springframework.security.core.userdetails.User(user.getName(),
                 user.getPasswordHash(),
                 mapRolesToAuthorities(user.getRoles()));
 	}
-
 }
