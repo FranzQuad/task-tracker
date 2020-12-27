@@ -6,12 +6,7 @@
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/welcome">
-        PineappleTT
-    </a>
-    <button type="button" class="btn btn-dark" style="background-color: orange">New Task</button>
-</nav>
+<div th:insert="~{navbar :: copy}"></div>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
