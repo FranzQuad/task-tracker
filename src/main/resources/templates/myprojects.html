@@ -23,7 +23,7 @@
       </div>
    </div>
    <hr>
-   
+
    <div class="row" style="width: 100%;">
       <div style="width: 60%; padding-left: 30px;">
          <ul class="list-group list-group-flush" th:each ="project : ${projects}">
@@ -38,7 +38,39 @@
          </ul>
       </div>
       <div style="width: 40%; padding-left: 30px;">
-         test
+         <div class="row" style="width: 100%; text-align: center">
+            <div style="width: 50%">
+               <h4 style="margin-left: 3%; margin-top: 1%;">In Progress</h4>
+            </div>
+            <div style="width: 50%; padding-left: 30px;">
+               <h4 style="margin-left: 3%; margin-top: 1%;">Closed</h4>
+            </div>
+         </div>
+         <hr>
+         <div class="row" style="width: 100%; text-align: center; padding-left: 6%;">
+            <div style="width: 50%;">
+               <ul class="list-group list-group-flush" th:each ="issue : ${issues}">
+                  <div class="card" style="width: 18rem; margin-top: 5px;">
+                     <div class="card-body">
+                        <h5 class="card-title" th:utext="${issue.name}"></h5>
+                        <!--<p class="card-text" th:utext="${issue.issuetype}></p>-->
+                        <a href="#" class="btn btn-primary">Open</a>
+                     </div>
+                  </div>
+               </ul>
+            </div>
+            <div style="width: 50%; text-align: center; padding-left: 6%;">
+               <ul class="list-group list-group-flush" th:each ="issue : ${issues}">
+                  <div class="card" style="width: 18rem; margin-top: 5px;">
+                     <div class="card-body">
+                        <h5 class="card-title" th:utext="${issue.name}"></h5>
+                        <!--<p class="card-text" th:utext="${issue.issuetype}></p>-->
+                        <a href="#" class="btn btn-primary">Open</a>
+                     </div>
+                  </div>
+               </ul>
+            </div>
+         </div>
       </div>
    </div>
    <!--
