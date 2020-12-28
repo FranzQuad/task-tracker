@@ -15,13 +15,12 @@
         </button>
 
 
-        <div style="margin-left: auto; font-size: 18px; color: white;">
-            <form th:action="@{/logout}" method="post">
+        <form th:action="@{/logout}" method="post" style="margin-left: auto;">
+            <div style="font-size: 18px; color: white;">
+                User Name
                 <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log out</button>
-            </form>
-        </div>
-
-
+            </div>
+        </form>
     </nav>
 
     <!-- Modal -->
