@@ -6,9 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class TaskTrackerApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(TaskTrackerApplication.class, args);
 	}
-    
 }

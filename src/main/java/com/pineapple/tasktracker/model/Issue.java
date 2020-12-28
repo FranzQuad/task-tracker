@@ -1,170 +1,53 @@
 package com.pineapple.tasktracker.model;
 
-import java.io.Serializable;
+import com.pineapple.tasktracker.model.enums.IssueStatus;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
-/**
- * The persistent class for the issue database table.
- * 
- */
 @Entity
-@NamedQuery(name="Issue.findAll", query="SELECT i FROM Issue i")
-public class Issue implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	private Long id;
-
+@Setter
+@Getter
+@Table
+public class Issue extends AbstractEntity {
+	@Column
 	private Timestamp finished;
 
-	private String name;
-
+	@Column
 	private Timestamp started;
 
-	private Integer stauts;
+	@Column
+	private String name;
 
-	//bi-directional many-to-one association to Board
-	@ManyToOne
-	@JoinColumn(name="board")
-	private Board boardBean;
+	@Column
+	private String description;
 
-	//bi-directional many-to-one association to Issuetype
-	@ManyToOne
-	@JoinColumn(name="type")
-	private Issuetype issuetype;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_issue_id")
+	private Issue parentIssue;
 
-	//bi-directional many-to-one association to Project
-	@ManyToOne
-	@JoinColumn(name="project")
-	private Project projectBean;
+	@OneToMany(
+			mappedBy = "parentIssue",
+			cascade = CascadeType.REMOVE,
+			orphanRemoval = true,
+			fetch = FetchType.LAZY)
+	private List<Issue> childIssues;
 
-	//bi-directional many-to-one association to Issuelabel
-	@OneToMany(mappedBy="issueBean")
-	private List<Issuelabel> issuelabels;
-
-	//bi-directional many-to-many association to Issue
-	@ManyToMany
 	@JoinTable(
-		name="issuetoissuelink"
-		, joinColumns={
-			@JoinColumn(name="issue2")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="issue1")
-			}
-		)
-	private List<Issue> issues1;
+			name = "issue_participant",
+			joinColumns = @JoinColumn(name = "issue_id"),
+			inverseJoinColumns = @JoinColumn(name = "participant_id"))
+	@ManyToMany
+	private List<ProjectParticipant> projectParticipants;
 
-	//bi-directional many-to-many association to Issue
-	@ManyToMany(mappedBy="issues1")
-	private List<Issue> issues2;
+	@JoinColumn(name = "project_id")
+	@ManyToOne
+	private Project issueProject;
 
-	public Issue() {
-	}
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Timestamp getFinished() {
-		return this.finished;
-	}
-
-	public void setFinished(Timestamp finished) {
-		this.finished = finished;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Timestamp getStarted() {
-		return this.started;
-	}
-
-	public void setStarted(Timestamp started) {
-		this.started = started;
-	}
-
-	public Integer getStauts() {
-		return this.stauts;
-	}
-
-	public void setStauts(Integer stauts) {
-		this.stauts = stauts;
-	}
-
-	public Board getBoardBean() {
-		return this.boardBean;
-	}
-
-	public void setBoardBean(Board boardBean) {
-		this.boardBean = boardBean;
-	}
-
-	public Issuetype getIssuetype() {
-		return this.issuetype;
-	}
-
-	public void setIssuetype(Issuetype issuetype) {
-		this.issuetype = issuetype;
-	}
-
-	public Project getProjectBean() {
-		return this.projectBean;
-	}
-
-	public void setProjectBean(Project projectBean) {
-		this.projectBean = projectBean;
-	}
-
-	public List<Issuelabel> getIssuelabels() {
-		return this.issuelabels;
-	}
-
-	public void setIssuelabels(List<Issuelabel> issuelabels) {
-		this.issuelabels = issuelabels;
-	}
-
-	public Issuelabel addIssuelabel(Issuelabel issuelabel) {
-		getIssuelabels().add(issuelabel);
-		issuelabel.setIssueBean(this);
-
-		return issuelabel;
-	}
-
-	public Issuelabel removeIssuelabel(Issuelabel issuelabel) {
-		getIssuelabels().remove(issuelabel);
-		issuelabel.setIssueBean(null);
-
-		return issuelabel;
-	}
-
-	public List<Issue> getIssues1() {
-		return this.issues1;
-	}
-
-	public void setIssues1(List<Issue> issues1) {
-		this.issues1 = issues1;
-	}
-
-	public List<Issue> getIssues2() {
-		return this.issues2;
-	}
-
-	public void setIssues2(List<Issue> issues2) {
-		this.issues2 = issues2;
-	}
-
+	@Column
+	@Enumerated(EnumType.STRING)
+	private IssueStatus issueStatus;
 }
