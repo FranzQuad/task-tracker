@@ -3,6 +3,7 @@ package com.pineapple.tasktracker.service;
 import com.pineapple.tasktracker.model.User;
 import com.pineapple.tasktracker.model.enums.Role;
 import com.pineapple.tasktracker.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,20 +15,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Service
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
-	@Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    public User findByEmail(String name){
-        return userRepository.findByName(name);
-    }
+	private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
         return roles.stream()
@@ -38,14 +35,14 @@ public class UserService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-        User user = userRepository.findByEmail(username);
-        if (user == null){
-        	System.out.println("Hello");
-        	
+        Optional<User> optionalUser = userRepository.findByName(username);
+        if (optionalUser.isPresent() == false) {
+        	System.out.println("Hello " + username);
             throw new UsernameNotFoundException("Invalid username or password.");
         }
+        User user = optionalUser.get();
         return new org.springframework.security.core.userdetails.User(user.getName(),
-                passwordEncoder.encode(user.getPassword()),
+                user.getPassword(),
                 mapRolesToAuthorities(Collections.singleton(user.getRole())));
 	}
 }
