@@ -11,8 +11,7 @@ import com.pineapple.tasktracker.repository.ProjectParticipantRepository;
 import com.pineapple.tasktracker.repository.ProjectRepository;
 import com.pineapple.tasktracker.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import lombok.extern.java.Log;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -24,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@Log
 public class MyProjectsController {
 
 	private final ProjectRepository projectRepository;
@@ -58,9 +59,9 @@ public class MyProjectsController {
 
 		Project project = new Project();
 		project.setName(projectDto.getName());
-		project.setDescription("New awesome project");
-		project.setFinished(new Timestamp(12323));
-		project.setStarted(new Timestamp(123123));
+		project.setDescription(projectDto.getDescription());
+		project.setFinished(new Timestamp(projectDto.getDate().getTime()));
+		project.setStarted(new Timestamp(new Date().getTime()));
 		project.setProjectParticipants(new ArrayList<>());
 		project = projectRepository.save(project);
 

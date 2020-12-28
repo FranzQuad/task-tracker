@@ -1,4 +1,4 @@
-package com.pineapple.tasktracker.service;
+package com.pineapple.tasktracker.config.security;
 
 import com.pineapple.tasktracker.model.User;
 import com.pineapple.tasktracker.model.enums.Role;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
 
 	private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
