@@ -2,6 +2,8 @@ package com.pineapple.tasktracker.dto;
 
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @AllArgsConstructor

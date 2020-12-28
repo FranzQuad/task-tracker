@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Long> {
-    @Query("select i from Issue i where i.issueProject = " +
-            "(select p from Project p where p =" +
+    @Query("select i from Issue i where i.issueProject in " +
+            "(select p from Project p where p in" +
                 "(select pt.project from ProjectParticipant pt where pt.user = ?1)" +
             ")")
     List<Issue> findByUser(User user);
