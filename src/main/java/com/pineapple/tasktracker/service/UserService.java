@@ -34,7 +34,6 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
         Optional<User> optionalUser = userRepository.findByName(username);
         if (optionalUser.isPresent() == false) {
         	System.out.println("Hello " + username);

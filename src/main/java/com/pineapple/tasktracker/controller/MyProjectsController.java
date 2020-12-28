@@ -55,7 +55,7 @@ public class MyProjectsController {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
 		User user = userRepository.findByName(username).orElseThrow();
-		
+
 		Project project = new Project();
 		project.setName(projectDto.getName());
 		project.setDescription("New awesome project");
