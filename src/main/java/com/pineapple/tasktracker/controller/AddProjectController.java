@@ -5,10 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class Registration {
+public class AddProjectController {
 
-    @GetMapping("/registration")
-    public String greeting(Model model) {
-        return "registration";
+    @GetMapping("/addproject")
+    public String addProject(Model model) {
+        return "addproject";
     }
 }
