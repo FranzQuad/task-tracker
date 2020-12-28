@@ -20,10 +20,9 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserDetailService implements UserDetailsService {
+public class UserSecurityService implements UserDetailsService {
 
 	private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
         return roles.stream()

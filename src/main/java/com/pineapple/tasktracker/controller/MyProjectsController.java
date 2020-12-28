@@ -65,11 +65,13 @@ public class MyProjectsController {
 		project.setProjectParticipants(new ArrayList<>());
 		project = projectRepository.save(project);
 
-		ProjectParticipant projectParticipant = new ProjectParticipant();
-		projectParticipant.setProject(project);
-		projectParticipant.setUser(user);
-		projectParticipant.setProjectRole(ProjectRole.MANAGER);
-		projectParticipant = projectParticipantRepository.save(projectParticipant);
+		ProjectParticipant projectParticipant = projectParticipantRepository.save(
+				ProjectParticipant.builder()
+				.project(project)
+				.user(user)
+				.projectRole(ProjectRole.MANAGER)
+				.build()
+		);
 
 		project.getProjectParticipants().add(projectParticipant);
 		projectRepository.save(project);
