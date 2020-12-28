@@ -14,10 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class IssueDto {
+    private Long projectId;
     private String name;
     private String description;
     private List<Long> userIds;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
-    private IssueStatus issueStatus;
+    private String issueStatus;
 }

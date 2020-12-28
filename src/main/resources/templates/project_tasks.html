@@ -9,7 +9,7 @@
 <div th:fragment="copy">
     <div class="row" style="width: 100%;">
         <div style="width: 60%; padding-left: 30px;">
-            <ul class="list-group list-group-flush" th:each ="issue : ${issues}">
+            <ul class="list-group list-group-flush" th:each ="issue : ${project.issues}">
                 <div class="row" >
                     <div style="width: 5%; text-align: center; ">
                         <li class="list-group-item list-group-item-action list-group-item-dark" th:utext="${issue.id}"></li>

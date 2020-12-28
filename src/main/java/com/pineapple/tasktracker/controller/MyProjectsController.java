@@ -5,6 +5,7 @@ import com.pineapple.tasktracker.model.Issue;
 import com.pineapple.tasktracker.model.Project;
 import com.pineapple.tasktracker.model.ProjectParticipant;
 import com.pineapple.tasktracker.model.User;
+import com.pineapple.tasktracker.model.enums.IssueStatus;
 import com.pineapple.tasktracker.model.enums.ProjectRole;
 import com.pineapple.tasktracker.repository.IssueRepository;
 import com.pineapple.tasktracker.repository.ProjectParticipantRepository;
@@ -44,9 +45,12 @@ public class MyProjectsController {
 
 		List<Issue> issues = issueRepository.findByUser(user);
 		List<Project> projects = projectRepository.findByUser(user);
+		List<User> users = userRepository.findAll();
 
 		model.addAttribute("projects", projects);
 		model.addAttribute("issues", issues);
+		model.addAttribute("users", users);
+		model.addAttribute("statusList", new IssueStatus[] {IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
 
 		return "myprojects";
 	}
