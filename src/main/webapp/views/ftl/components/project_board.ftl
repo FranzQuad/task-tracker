@@ -24,7 +24,6 @@
                     <li class="card" style="margin-top: 5px;">
                         <div class="card-body">
                             <h5 class="card-title" style="text-align: center">${issue.name}</h5>
-                            <!--<p class="card-text" utext="${issue.issuetype}></p>-->
                             <div style="text-align: center;">
                                 <a href="/task" class="btn btn-primary">Open</a>
                             </div>
@@ -39,7 +38,6 @@
                     <div class="card" style="margin-top: 5px;">
                         <div class="card-body">
                             <h5 class="card-title" style="text-align: center">${issue.name}</h5>
-                            <!--<p class="card-text" utext="${issue.issuetype}></p>-->
                             <div style="text-align: center;">
                                 <a href="/task" class="btn btn-primary">Open</a>
                             </div>
@@ -54,7 +52,6 @@
                     <div class="card" style="margin-top: 5px;">
                         <div class="card-body">
                             <h5 class="card-title" style="text-align: center">${issue.name}</h5>
-                            <!--<p class="card-text" utext="${issue.issuetype}></p>-->
                             <div style="text-align: center;">
                                 <a href="/task" class="btn btn-primary">Open</a>
                             </div>

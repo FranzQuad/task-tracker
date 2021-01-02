@@ -19,11 +19,12 @@
     </div>
     <hr>
 
+    <!-- Logged in user projects -->
     <div class="container-fluid" style="width: 100%;">
         <div class="row">
             <div class="container-fluid" style="width: 60%;">
-                <#foreach project in projects>
-                    <ul class="list-group list-group-flush mx-0">
+                <ul class="list-group list-group-flush mx-0">
+                    <#foreach project in projects>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <h6>${project.id}</h6>
                             <h6>${project.name}</h6>
@@ -31,8 +32,8 @@
                             <span class="badge badge-primary badge-pill">14</span>
                             <a href="/project/${project.id}" class="btn btn-primary">Open</a>
                         </li>
-                    </ul>
-                </#foreach>
+                    </#foreach>
+                </ul>
             </div>
 
             <!-- Logged in user "In Progress" and "Closed" tasks -->
@@ -48,24 +49,7 @@
                 <hr style="width: 100%">
                 <div class="row mx-0" style="width: 100%;">
                     <div style="width: 50%; height: 77.4vh; overflow-y: scroll;">
-                        <#foreach issue in issues>
-                            <ul class="list-group list-group-flush">
-                                <div class="card" style="margin: auto; width: 18rem; margin-top: 5px;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${issue.name}</h5>
-                                        <strong>Description:</strong>
-                                        <p>${issue.getDescription()}</p>
-                                        <strong>Start Date:</strong>
-                                        <p>${issue.getStarted()}</p>
-                                        <strong>End Date:</strong>
-                                        <p>${issue.getFinished()}</p>
-                                        <strong>Status:</strong>
-                                        <p>${issue.getIssueStatus()}</p>
-                                        <a href="/task" class="btn btn-primary">Open</a>
-                                    </div>
-                                </div>
-                            </ul>
-                        </#foreach>
+                        <#include '../components/issues_cycle.ftl'>
                     </div>
                     <div style="width: 50%; height: 77.4vh; overflow-y: scroll;">
                         <#foreach issue in issues>
