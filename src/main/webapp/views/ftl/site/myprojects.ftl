@@ -29,7 +29,7 @@
                             <h6>${project.name}</h6>
                             <h6>${project.finished}</h6>
                             <span class="badge badge-primary badge-pill">14</span>
-                            <a href="/task" class="btn btn-primary">Open</a>
+                            <a href="/project/${project.id}" class="btn btn-primary">Open</a>
                         </li>
                     </ul>
                 </#foreach>
