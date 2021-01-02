@@ -3,7 +3,8 @@
         <a class="navbar-brand" href="/login">
             <strong>PineappleTT</strong>
         </a>
-        <a href="/myprojects">My projects</a>
+        <a href="/myprojects" type="button" class="btn btn-dark" style="background-color: green" >My Projects
+        </a>
         <button type="button" class="btn btn-dark" style="background-color: orange" data-toggle="modal"
                 data-target="#newProject">New Project
         </button>

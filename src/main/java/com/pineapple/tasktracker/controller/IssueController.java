@@ -33,7 +33,8 @@ public class IssueController {
     @GetMapping(value = "/issue/{id}")
     public String projects(Model model, @PathVariable long id)
     {
-        Project project = projectRepository.findById(id).orElseThrow();
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        Project project = projectRepository.findById(issue.getIssueProject().getId()).orElseThrow();
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails)principal).getUsername();

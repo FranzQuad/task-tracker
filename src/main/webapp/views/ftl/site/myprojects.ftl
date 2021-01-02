@@ -52,24 +52,7 @@
                         <#include '../components/issues_cycle.ftl'>
                     </div>
                     <div style="width: 50%; height: 77.4vh; overflow-y: scroll;">
-                        <#foreach issue in issues>
-                        <ul class="list-group list-group-flush">
-                            <div class="card" style="margin: auto; width: 18rem; margin-top: 5px;">
-                                <div class="card-body">
-                                    <h5 class="card-title">${issue.name}</h5>
-                                    <strong>Description:</strong>
-                                    <p>${issue.getDescription()}</p>
-                                    <strong>Start Date:</strong>
-                                    <p>${issue.getStarted()}</p>
-                                    <strong>End Date:</strong>
-                                    <p>${issue.getFinished()}</p>
-                                    <strong>Status:</strong>
-                                    <p>${issue.getIssueStatus()}</p>
-                                    <a href="/task" class="btn btn-primary">Open</a>
-                                </div>
-                            </div>
-                        </ul>
-                        </#foreach>
+                        <#include '../components/issues_cycle.ftl'>
                     </div>
                 </div>
             </div>
