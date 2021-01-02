@@ -11,16 +11,20 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist" style="font-size: 30px;">
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="board-tab" data-toggle="tab" href="#board" role="tab" aria-controls="board"
-               aria-selected="false">Board</a>
+            <a class="nav-link text-dark" id="board-tab" data-toggle="tab" href="#board" role="tab" aria-controls="board"
+               aria-selected="true">Board</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks"
+            <a class="nav-link text-dark" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks"
                aria-selected="false">Tasks</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="participants-tab" data-toggle="tab" href="#participants" role="tab"
+            <a class="nav-link text-dark" id="participants-tab" data-toggle="tab" href="#participants" role="tab"
                aria-controls="participants" aria-selected="false">Participants</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link text-dark" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about"
+               aria-selected="false">About</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -31,7 +35,10 @@
             <#include '../components/project_tasks.ftl'>
         </div>
         <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">
-            <#include '../components/participants.ftl'>
+            <#include '../components/project_participants.ftl'>
+        </div>
+        <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+            <#include '../components/project_about.ftl'>
         </div>
     </div>
 </#macro>
