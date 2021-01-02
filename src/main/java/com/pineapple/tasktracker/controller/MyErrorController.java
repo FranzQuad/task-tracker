@@ -30,6 +30,6 @@ public class MyErrorController implements ErrorController {
                 return "error/error-500";
             }
         }
-        return "error/error";
+        return "error/base-error";
     }
 }

@@ -24,5 +24,3 @@
 
     </div>
 </#macro>
-
-<@display_page/>
