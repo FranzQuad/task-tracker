@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Registration</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-</head>
-<body>
+<#include '../base.ftl'>
+
+<#macro title>Registration</#macro>
+
+<#macro stylesheets>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css"/>
+</#macro>
+
+<#macro body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/login">
         PineappleTT
@@ -38,6 +39,6 @@
         </form>
     </div>
 </div>
+</#macro>
 
-</body>
-</html>
+<@display_page/>

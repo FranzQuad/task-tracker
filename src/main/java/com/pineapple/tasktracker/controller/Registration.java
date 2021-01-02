@@ -20,7 +20,7 @@ public class Registration {
 
     @GetMapping("/registration")
     public String registrationPage() {
-        return "registration";
+        return "site/registration";
     }
 
     @PostMapping("/registration")

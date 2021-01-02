@@ -52,7 +52,7 @@ public class MyProjectsController {
 		model.addAttribute("users", users);
 		model.addAttribute("statusList", new IssueStatus[] {IssueStatus.TO_DO, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.COMPLETE});
 
-		return "myprojects";
+		return "site/myprojects";
 	}
 
 	@PostMapping(value="/add-project")

@@ -47,7 +47,7 @@ public class ProjectController {
         model.addAttribute("issues", issues);
         model.addAttribute("users", users);
         model.addAttribute("statusList", new IssueStatus[] {IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
-        return "project";
+        return "site/project";
     }
 
     @PostMapping(value = "/project/add-issue")

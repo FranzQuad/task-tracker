@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<body>
-<div th:fragment="copy">
+<div fragment="copy">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/login">
             <strong>PineappleTT</strong>
@@ -16,7 +12,7 @@
         </button>
 
 
-        <form th:action="@{/logout}" method="post" style="margin-left: auto;">
+        <form action="/logout" method="post" style="margin-left: auto;">
             <div style="font-size: 18px; color: white;">
                 User Name
                 <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log out</button>
@@ -77,9 +73,9 @@
                         <div class="input-group" style="margin-bottom: 10px;">
                             <div class="input-group-append">
                                 <select name="userIds" multiple class="form-control">
-                                    <option th:value="${user.id}" th:each ="user : ${users}" th:text="${user.name}">
-
-                                    </option>
+                                    <#foreach user in users>
+                                        <option value="${user.id}">${user.name}</option>
+                                    </#foreach>
                                 </select>
                             </div>
                         </div>
@@ -97,9 +93,9 @@
                         <div class="input-group" style="margin-bottom: 10px;">
                             <div class="input-group-append">
                                 <select name="issueStatus" class="form-control">
-                                    <option th:value="${status.name}" th:each ="status : ${statusList}" th:text="${status.name}">
-
-                                    </option>
+                                    <#foreach status in statusList>
+                                        <option value="${status.name()}">${status.name()}</option>
+                                    </#foreach>
                                 </select>
                             </div>
                         </div>
@@ -107,9 +103,9 @@
                         <div class="input-group" style="margin-bottom: 10px;">
                             <div class="input-group-append">
                                 <select name="projectId" class="form-control">
-                                    <option th:value="${project.id}" th:each ="project : ${projects}" th:text="${project.name}">
-
-                                    </option>
+                                    <#foreach project in projects>
+                                        <option value="${project.id}">${project.name}</option>
+                                    </#foreach>
                                 </select>
                             </div>
                         </div>
@@ -137,7 +133,3 @@
             integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
             crossorigin="anonymous"></script>
 </div>
-
-
-</body>
-</html>

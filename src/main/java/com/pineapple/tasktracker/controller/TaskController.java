@@ -22,6 +22,6 @@ public class TaskController {
         List<Issue> issues = (List<Issue>) issueRepository.findAll();
         model.addAttribute("issues", issues);
 
-        return "task";//here your name of your view (html)
+        return "site/task";//here your name of your view (html)
     }
 }
