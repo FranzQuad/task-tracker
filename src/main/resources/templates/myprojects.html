@@ -5,68 +5,84 @@
       <title>Projects List</title>
       <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
    </head>
-   <body style="width: 100%;">
+   <body style="width: 100%; height: 100vh; overflow:hidden;">
    <div th:insert="~{navbar :: copy}"></div>
 
    <div class="row" style="width: 100%;">
       <div style="width: 60%">
-         <h2 style="margin-left: 3%; margin-top: 1%;">Projects</h2>
+         <h2 style="margin-left: 3%; margin-top: 16px; margin-bottom: 0px;">Projects</h2>
       </div>
-      <div style="width: 40%; padding-left: 30px;">
-         <h2 style="margin-left: 3%; margin-top: 1%;">My Tasks</h2>
+      <div style="width: 40%;">
+         <h2 style="margin-left: 3%; margin-top: 16px; margin-bottom: 0px;">My Tasks</h2>
       </div>
    </div>
    <hr>
 
-   <div class="row" style="width: 100%;">
-      <div style="width: 60%; padding-left: 30px;">
-         <ul class="list-group list-group-flush" th:each ="project : ${projects}">
-            <div class="row" >
-               <div style="width: 5%; text-align: center; ">
-                  <li class="list-group-item list-group-item-action list-group-item-dark" th:utext="${project.id}"></li>
-               </div>
-               <div style="width: 95%;">
-                  <a href="/project/1" class="list-group-iem list-group-item-action list-group-item-dark" th:utext="${project.name}"></a>
-               </div>
-            </div>
-         </ul>
-      </div>
-      <div style="width: 40%; padding-left: 30px;">
-         <div class="row" style="width: 100%; text-align: center">
-            <div style="width: 50%">
-               <h4 style="margin-left: 3%; margin-top: 1%;">In Progress</h4>
-            </div>
-            <div style="width: 50%; padding-left: 30px;">
-               <h4 style="margin-left: 3%; margin-top: 1%;">Closed</h4>
-            </div>
+   <div class="container-fluid" style="width: 100%;">
+      <div class="row">
+         <div class="container-fluid" style="width: 60%;">
+            <ul class="list-group list-group-flush mx-0" th:each ="project : ${projects}">
+               <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <h6 th:utext="${project.id}"></h6>
+                  <h6 th:utext="${project.name}"></h6>
+                  <h6 th:utext="${project.finished}"></h6>
+                  <span class="badge badge-primary badge-pill">14</span>
+                  <a href="/task" class="btn btn-primary">Open</a>
+               </li>
+            </ul>
          </div>
-         <hr>
-         <div class="row" style="width: 100%; text-align: center; padding-left: 6%;">
-            <div style="width: 50%;">
-               <ul class="list-group list-group-flush" th:each ="issue : ${issues}">
-                  <div class="card" style="width: 18rem; margin-top: 5px;">
-                     <div class="card-body">
-                        <h5 class="card-title" th:utext="${issue.name}"></h5>
-                        <!--<p class="card-text" th:utext="${issue.issuetype}></p>-->
-                        <a href="/task" class="btn btn-primary">Open</a>
-                     </div>
-                  </div>
-               </ul>
+
+         <!-- Logged in user "In Progress" and "Closed" tasks -->
+         <div style="width: 40%;">
+            <div class="row mx-0" style="width: 100%; text-align: center">
+               <div style="width: 50%">
+                  <h4 style="margin-left: 3%; margin-top: 1%;">In Progress</h4>
+               </div>
+               <div style="width: 50%">
+                  <h4 style="margin-left: 3%; margin-top: 1%;">Closed</h4>
+               </div>
             </div>
-            <div style="width: 50%; text-align: center; padding-left: 6%;">
-               <ul class="list-group list-group-flush" th:each ="issue : ${issues}">
-                  <div class="card" style="width: 18rem; margin-top: 5px;">
-                     <div class="card-body">
-                        <h5 class="card-title" th:utext="${issue.name}"></h5>
-                        <!--<p class="card-text" th:utext="${issue.issuetype}></p>-->
-                        <a href="/task" class="btn btn-primary">Open</a>
+            <hr style="width: 100%">
+            <div class="row mx-0" style="width: 100%;">
+               <div style="width: 50%; height: 77.4vh; overflow-y: scroll;">
+                  <ul class="list-group list-group-flush" th:each ="issue : ${issues}">
+                     <div class="card" style="margin: auto; width: 18rem; margin-top: 5px;">
+                        <div class="card-body">
+                           <h5 class="card-title" th:utext="${issue.name}"></h5>
+                           <strong>Description:</strong>
+                           <p th:text="${issue.getDescription()}"></p>
+                           <strong>Start Date:</strong>
+                           <p th:text="${issue.getStarted()}"></p>
+                           <strong>End Date:</strong>
+                           <p th:text="${issue.getFinished()}"></p>
+                           <strong>Status:</strong>
+                           <p th:text="${issue.getIssueStatus()}"></p>
+                           <a href="/task" class="btn btn-primary">Open</a>
+                        </div>
                      </div>
-                  </div>
-               </ul>
+                  </ul>
+               </div>
+               <div style="width: 50%; height: 77.4vh; overflow-y: scroll;">
+                  <ul class="list-group list-group-flush" th:each ="issue : ${issues}">
+                     <div class="card" style="margin: auto; width: 18rem; margin-top: 5px;">
+                        <div class="card-body">
+                           <h5 class="card-title" th:utext="${issue.name}"></h5>
+                           <strong>Description:</strong>
+                           <p th:text="${issue.getDescription()}"></p>
+                           <strong>Start Date:</strong>
+                           <p th:text="${issue.getStarted()}"></p>
+                           <strong>End Date:</strong>
+                           <p th:text="${issue.getFinished()}"></p>
+                           <strong>Status:</strong>
+                           <p th:text="${issue.getIssueStatus()}"></p>
+                           <a href="/task" class="btn btn-primary">Open</a>
+                        </div>
+                     </div>
+                  </ul>
+               </div>
             </div>
          </div>
       </div>
    </div>
-
    </body>
 </html>

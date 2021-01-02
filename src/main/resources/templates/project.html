@@ -10,7 +10,7 @@
 
 <ul class="nav nav-tabs" id="myTab" role="tablist" style="font-size: 30px;">
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="boards-tab" data-toggle="tab" href="#boards" role="tab" aria-controls="boards" aria-selected="true">Boards</a>
+        <a class="nav-link" id="board-tab" data-toggle="tab" href="#board" role="tab" aria-controls="board" aria-selected="false">Board</a>
     </li>
     <li class="nav-item" role="presentation">
         <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
@@ -20,13 +20,15 @@
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="boards" role="tabpanel" aria-labelledby="boards-tab">
+    <div class="tab-pane fade show active" id="board" role="tabpanel" aria-labelledby="board-tab">
         <div th:insert="~{project_board :: copy}"></div>
     </div>
     <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
         <div th:insert="~{project_tasks :: copy}"></div>
     </div>
-    <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">...</div>
+    <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">
+        <div th:insert="~{participants :: copy}"></div>
+    </div>
 </div>
 
 </body>

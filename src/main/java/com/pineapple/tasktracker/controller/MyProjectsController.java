@@ -50,7 +50,7 @@ public class MyProjectsController {
 		model.addAttribute("projects", projects);
 		model.addAttribute("issues", issues);
 		model.addAttribute("users", users);
-		model.addAttribute("statusList", new IssueStatus[] {IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
+		model.addAttribute("statusList", new IssueStatus[] {IssueStatus.TO_DO, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.COMPLETE});
 
 		return "myprojects";
 	}

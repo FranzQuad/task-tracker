@@ -71,7 +71,7 @@ public class ProjectController {
         );
         issue.setIssueStatus(IssueStatus.valueOf(issueDto.getIssueStatus()));
         issueRepository.save(issue);
-        return "project";
+        return "redirect:/myprojects";
     }
 
     @PostMapping(value = "/issue/{issueId}/edit-status")
@@ -79,7 +79,7 @@ public class ProjectController {
         Issue issue = issueRepository.findById(issueId).orElseThrow();
         issue.setIssueStatus(IssueStatus.valueOf(status));
         issueRepository.save(issue);
-        return "project";
+        return "redirect:/myprojects";
     }
 
     @PostMapping(value = "/participant/{participantId}/edit-role")
@@ -87,6 +87,6 @@ public class ProjectController {
         ProjectParticipant projectParticipant = projectParticipantRepository.getOne(participantId);
         projectParticipant.setProjectRole(ProjectRole.valueOf(role));
         projectParticipantRepository.save(projectParticipant);
-        return "project";
+        return "redirect:/myprojects";
     }
 }

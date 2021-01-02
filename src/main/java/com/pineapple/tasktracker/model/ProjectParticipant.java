@@ -1,18 +1,20 @@
 package com.pineapple.tasktracker.model;
 
 import com.pineapple.tasktracker.model.enums.ProjectRole;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
 @Table
-@Setter
 @Entity
+@Data
 @Builder
+@AllArgsConstructor
 public class ProjectParticipant extends AbstractEntity {
+
+	public ProjectParticipant() {
+	}
+
 	@Column
 	@Enumerated(EnumType.STRING)
 	private ProjectRole projectRole;
