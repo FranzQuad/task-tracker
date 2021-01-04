@@ -12,7 +12,7 @@
         <div class="row">
             <div style="width: 60%; margin-left: 25px;">
                 <div class="row mx-0" style="width: 100%; height: 50px; text-align: left; background-color: ghostwhite; margin-top: 10px; border-radius: 15px">
-                    <p style="font-size: x-large;" contenteditable="true">${issue.getName()}</p>
+                    <p style="font-size: x-large;" >${issue.getName()}</p>
                 </div>
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 100px; background-color: ghostwhite; margin-top: 10px; border-radius: 15px;">
                     <p style="font-size: medium;" contenteditable="true" onfocus="">${issue.getDescription()}</p>
