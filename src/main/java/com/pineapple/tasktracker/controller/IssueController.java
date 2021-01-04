@@ -49,6 +49,7 @@ public class IssueController {
         model.addAttribute("issues", issues);
         model.addAttribute("users", users);
         model.addAttribute("statusList", new IssueStatus[] {IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
+        model.addAttribute("username", username);
 
         return "site/issue";//here your name of your view (html)
     }

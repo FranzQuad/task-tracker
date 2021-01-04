@@ -15,8 +15,8 @@
 
         <form action="/logout" method="post" style="margin-left: auto;">
             <div style="font-size: 18px; color: white;">
-                User Name
-                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log out</button>
+                ${username}
+                <button class="btn btn-outline-danger my-2 my-sm-0" style="margin-left: 10px;" type="submit">Log out</button>
             </div>
         </form>
     </nav>

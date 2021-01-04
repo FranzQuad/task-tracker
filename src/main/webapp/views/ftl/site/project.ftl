@@ -1,6 +1,6 @@
 <#include '../base.ftl'>
 
-<#macro title>Welcome</#macro>
+<#macro title>${project.name}</#macro>
 
 <#macro stylesheets>
     <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css"/>

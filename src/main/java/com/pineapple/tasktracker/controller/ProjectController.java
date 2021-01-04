@@ -1,6 +1,7 @@
 package com.pineapple.tasktracker.controller;
 
 import com.pineapple.tasktracker.dto.IssueDto;
+import com.pineapple.tasktracker.dto.ProjectDto;
 import com.pineapple.tasktracker.model.Issue;
 import com.pineapple.tasktracker.model.Project;
 import com.pineapple.tasktracker.model.ProjectParticipant;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +36,12 @@ public class ProjectController {
     public String getProjectById(Model model, @PathVariable long id) {
         Project project = projectRepository.findById(id).orElseThrow();
 
+        if (project.getDescription() == null) {
+            project.setDescription("It's empty here yet! Please add a project description.");
+        }
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails)principal).getUsername();
+        String username = ((UserDetails) principal).getUsername();
         User user = userRepository.findByName(username).orElseThrow();
 
         List<Issue> issues = issueRepository.findByUser(user);
@@ -46,9 +52,38 @@ public class ProjectController {
         model.addAttribute("projects", projects);
         model.addAttribute("issues", issues);
         model.addAttribute("users", users);
-        model.addAttribute("statusList", new IssueStatus[] {IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
+        model.addAttribute("statusList", new IssueStatus[]{IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
+        model.addAttribute("username", username);
         return "site/project";
     }
+
+//    @PostMapping(value = "/add-project")
+//    String addNewProject(@ModelAttribute ProjectDto projectDto) {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String username = ((UserDetails) principal).getUsername();
+//        User user = userRepository.findByName(username).orElseThrow();
+//
+//        Project project = new Project();
+//        project.setName(projectDto.getName());
+//        project.setDescription(projectDto.getDescription());
+//        project.setFinished(new Timestamp(projectDto.getDate().getTime()));
+//        project.setStarted(new Timestamp(new Date().getTime()));
+//        project.setProjectParticipants(new ArrayList<>());
+//        project = projectRepository.save(project);
+//
+//        ProjectParticipant projectParticipant = projectParticipantRepository.save(
+//                ProjectParticipant.builder()
+//                        .project(project)
+//                        .user(user)
+//                        .projectRole(ProjectRole.MANAGER)
+//                        .build()
+//        );
+//
+//        project.getProjectParticipants().add(projectParticipant);
+//        projectRepository.save(project);
+//
+//        return "redirect:/myprojects";
+//    }
 
     @PostMapping(value = "/project/add-issue")
     public String addIssueForProject(@ModelAttribute IssueDto issueDto) {
@@ -88,5 +123,23 @@ public class ProjectController {
         projectParticipant.setProjectRole(ProjectRole.valueOf(role));
         projectParticipantRepository.save(projectParticipant);
         return "redirect:/myprojects";
+    }
+
+    @PostMapping(value = "/project/{projectId}/edit-description")
+    public String editDescription(@PathVariable Long projectId, @RequestParam String description) {
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        project.setDescription(description);
+        projectRepository.save(project);
+
+        return "redirect:/project/{projectId}";
+    }
+
+    @PostMapping(value = "/project/{projectId}/edit-name")
+    public String editName(@PathVariable Long projectId, @RequestParam String name) {
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        project.setName(name);
+        projectRepository.save(project);
+
+        return "redirect:/project/{projectId}";
     }
 }
