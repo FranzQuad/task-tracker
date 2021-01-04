@@ -86,12 +86,15 @@
             </#foreach>
         </ul>
     </div>
-         <div class="row mx-0" style="width: 80%; height: 100px; margin-top: 20px; margin-right: 25px; display: flex; justify-content: flex-end;">
-            <form action="/issue/${issue.getId()}/add-comment" method="post">
-                <input name="text" type="text" class="form-control" style="width: 100em; margin-left: 25px; display: flex; justify-content: flex-end;">
-                <button type="submit" class="btn btn-primary;" style="margin-top: 10px; margin-left: 25px; display: flex; justify-content: flex-end;">Submit</button>
+    <div class="container-fluid">
+        <div class="row mx-0" style="width: 80%; height: 100px; margin-top: 20px; margin-right: 25px; display: flex; justify-content: flex-end;">
+            <form action="/issue/${issue.getId()}/add-comment" method="post" style="width: 100%;">
+                <input name="text" type="text" class="form-control" style="margin-left: 25px; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary float-right" style="margin-top: 10px; margin-left: 25px;">Submit</button>
             </form>
         </div>
+    </div>
+
 </#macro>
 
 <@display_page/>
