@@ -14,12 +14,13 @@
         <div class="container-fluid">
             <h4>Description</h4>
             <p class="alert alert-info">${project.description}</p>
-            <button type="button" class="btn btn-dark float-right" style="background-color: orange; margin: auto; width: 80px;
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-dark" style="background-color: orange; width: 80px;
                 height: 33px;" data-toggle="modal" data-target="#editDescription">
-                Edit
-            </button>
+                    Edit
+                </button>
+            </div>
         </div>
-
 
         <hr>
 
@@ -29,8 +30,11 @@
         </div>
 
         <hr>
+
+        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteProject">Delete</button>
     </div>
 
+    <!-- Edit project name modal window -->
     <div id="editName" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -53,6 +57,7 @@
         </div>
     </div>
 
+    <!-- Edit project description modal window -->
     <div id="editDescription" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -69,6 +74,24 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <input type="submit" class="btn btn-default" style="background-color: orange">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project delete modal window -->
+    <div id="deleteProject" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> Are you sure?</h4>
+                </div>
+                <form action="/project/${project.id}/delete" method="post">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <input type="submit" class="btn" style="background-color: red" value="Yes">
                     </div>
                 </form>
             </div>

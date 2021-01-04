@@ -48,12 +48,23 @@ public class ProjectController {
         List<Project> projects = projectRepository.findByUser(user);
         List<User> users = userRepository.findAll();
 
+        // Issues by status
+        List<Issue> toDoIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.TO_DO);
+        List<Issue> inProgressIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.IN_PROGRESS);
+        List<Issue> readyForTestingIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.READY_FOR_TESTING);
+        List<Issue> completeIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.COMPLETE);
+
         model.addAttribute("project", project);
         model.addAttribute("projects", projects);
         model.addAttribute("issues", issues);
         model.addAttribute("users", users);
         model.addAttribute("statusList", new IssueStatus[]{IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
         model.addAttribute("username", username);
+
+        model.addAttribute("todoissues", toDoIssues);
+        model.addAttribute("inprogissues", inProgressIssues);
+        model.addAttribute("readyfortestingissues", readyForTestingIssues);
+        model.addAttribute("completeIssues", completeIssues);
         return "site/project";
     }
 
@@ -141,5 +152,21 @@ public class ProjectController {
         projectRepository.save(project);
 
         return "redirect:/project/{projectId}";
+    }
+
+    /*
+    TODO: Не доделано, проект не удаляется из-за issue participants
+     */
+    @PostMapping(value = "/project/{projectId}/delete")
+    public String deleteProject(@PathVariable Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        List<Issue> projectIssues = issueRepository.findByProject(project);
+        List<ProjectParticipant> projectParticipants = projectParticipantRepository.findAllByProject(project);
+
+        projectParticipantRepository.deleteAll(projectParticipants);
+        issueRepository.deleteAll(projectIssues);
+        projectRepository.delete(project);
+
+        return "redirect:/myprojects";
     }
 }
