@@ -20,10 +20,20 @@ public class Issue extends AbstractEntity {
 	private Timestamp started;
 
 	@Column
+	private Timestamp deadline;
+
+	@Column
+	private Timestamp redline;
+
+	@Column
 	private String name;
 
 	@Column
 	private String description;
+
+	@ManyToOne
+	@JoinColumn(name = "projectparticipant_id")
+	private ProjectParticipant reporter;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_issue_id")
