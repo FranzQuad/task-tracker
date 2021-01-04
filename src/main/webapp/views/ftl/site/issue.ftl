@@ -12,10 +12,10 @@
         <div class="row">
             <div style="width: 60%; margin-left: 25px;">
                 <div class="row mx-0" style="width: 100%; height: 50px; text-align: left; background-color: ghostwhite; margin-top: 10px; border-radius: 15px">
-                    <p style="font-size: x-large;" contenteditable="true">Task name</p>
+                    <p style="font-size: x-large;" contenteditable="true">${issue.getName()}</p>
                 </div>
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 100px; background-color: ghostwhite; margin-top: 10px; border-radius: 15px;">
-                    <p style="font-size: medium;" contenteditable="true" onfocus="">Description</p>
+                    <p style="font-size: medium;" contenteditable="true" onfocus="">${issue.getDescription()}</p>
                 </div>
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 100px; background-color: ghostwhite; margin-top: 10px; border-radius: 15px;">
                     <div class="container-fluid" style="height: 190px; overflow-y: scroll;">
@@ -26,7 +26,7 @@
                                     <h6>${issue.getName()}</h6>
                                     <h6>${issue.getStarted()}</h6>
                                     <h6>${issue.getFinished()}</h6>
-                                    <a href="/project/${issue.id}" class="btn btn-primary">Open</a>
+                                    <a href="/issue/${issue.id}" class="btn btn-primary">Open</a>
                                 </li>
                             </#foreach>
                         </ul>
