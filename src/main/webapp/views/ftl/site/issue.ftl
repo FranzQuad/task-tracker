@@ -13,6 +13,7 @@
             <div style="width: 60%; margin-left: 25px;">
                 <div class="row mx-0" style="width: 100%; max-width: 100%; height: 50px; max-height: 50px; text-align: left; background-color: ghostwhite; margin-top: 10px; border-radius: 15px; " data-toggle="modal" data-target="#editName">
                     <p style="font-size: x-large; width: 100%; max-width: 100%; height: 50px; max-height: 50px;">${issue.getName()}</p>
+
                 </div>
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 100px; background-color: ghostwhite; margin-top: 10px; border-radius: 15px; overflow: hidden; word-wrap: break-word;" data-toggle="modal" data-target="#editDescription">
                     <p style="font-size: medium;">${issue.getDescription()}</p>
@@ -98,10 +99,11 @@
             </#foreach>
         </ul>
     </div>
-         <div class="row mx-0" style="width: 80%; height: 100px; margin-top: 20px; margin-right: 25px; display: flex; justify-content: flex-end;">
-            <form action="/issue/${issue.getId()}/add-comment" method="post">
-                <input name="text" type="text" class="form-control" style="width: 100em; margin-left: 25px; display: flex; justify-content: flex-end;">
-                <button type="submit" class="btn btn-primary;" style="margin-top: 10px; margin-left: 25px; display: flex; justify-content: flex-end;">Submit</button>
+    <div class="container-fluid">
+        <div class="row mx-0" style="width: 80%; height: 100px; margin-top: 20px; margin-right: 25px; display: flex; justify-content: flex-end;">
+            <form action="/issue/${issue.getId()}/add-comment" method="post" style="width: 100%;">
+                <input name="text" type="text" class="form-control" style="margin-left: 25px; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary float-right" style="margin-top: 10px; margin-left: 25px;">Submit</button>
             </form>
         </div>
 
@@ -219,7 +221,6 @@
                 </form>
             </div>
         </div>
-    </div>
 
 </#macro>
 
