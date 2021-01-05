@@ -47,6 +47,12 @@ public class MyProjectsController {
 		List<Project> projects = projectRepository.findByUser(user);
 		List<User> users = userRepository.findAll();
 
+		for (Project p : projects) {
+			if (p.getDeadline() == null) {
+				p.setDeadline(new Timestamp(0000-00-00));
+			}
+		}
+
 		model.addAttribute("projects", projects);
 		model.addAttribute("issues", issues);
 		model.addAttribute("users", users);
@@ -65,8 +71,10 @@ public class MyProjectsController {
 		Project project = new Project();
 		project.setName(projectDto.getName());
 		project.setDescription(projectDto.getDescription());
-		project.setFinished(new Timestamp(projectDto.getDate().getTime()));
-		project.setStarted(new Timestamp(new Date().getTime()));
+		project.setCreated(new Timestamp(new Date().getTime()));
+		project.setStarted(new Timestamp(projectDto.getStarted().getTime()));
+		project.setDeadline(new Timestamp(projectDto.getDeadline().getTime()));
+
 		project.setProjectParticipants(new ArrayList<>());
 		project = projectRepository.save(project);
 

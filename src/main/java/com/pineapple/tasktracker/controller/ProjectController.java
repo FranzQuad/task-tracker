@@ -36,10 +36,6 @@ public class ProjectController {
     public String getProjectById(Model model, @PathVariable long id) {
         Project project = projectRepository.findById(id).orElseThrow();
 
-        if (project.getDescription() == null) {
-            project.setDescription("It's empty here yet! Please add a project description.");
-        }
-
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         User user = userRepository.findByName(username).orElseThrow();
@@ -47,6 +43,7 @@ public class ProjectController {
         List<Issue> issues = issueRepository.findByUser(user);
         List<Project> projects = projectRepository.findByUser(user);
         List<User> users = userRepository.findAll();
+        List<ProjectParticipant> projectParticipants = projectParticipantRepository.findAllByProject(project);
 
         // Issues by status
         List<Issue> toDoIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.TO_DO);
@@ -60,6 +57,7 @@ public class ProjectController {
         model.addAttribute("users", users);
         model.addAttribute("statusList", new IssueStatus[]{IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
         model.addAttribute("username", username);
+        model.addAttribute("projectparticipants", projectParticipants);
 
         model.addAttribute("todoissues", toDoIssues);
         model.addAttribute("inprogissues", inProgressIssues);
@@ -149,6 +147,24 @@ public class ProjectController {
     public String editName(@PathVariable Long projectId, @RequestParam String name) {
         Project project = projectRepository.findById(projectId).orElseThrow();
         project.setName(name);
+        projectRepository.save(project);
+
+        return "redirect:/project/{projectId}";
+    }
+
+    @PostMapping(value = "/project/{projectId}/edit-startdate")
+    public String editStartDate(@PathVariable Long projectId, @ModelAttribute ProjectDto projectDto) {
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        project.setStarted(new Timestamp(projectDto.getStarted().getTime()));
+        projectRepository.save(project);
+
+        return "redirect:/project/{projectId}";
+    }
+
+    @PostMapping(value = "/project/{projectId}/edit-deadline")
+    public String editDeadline(@PathVariable Long projectId, @ModelAttribute ProjectDto projectDto) {
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        project.setDeadline(new Timestamp(projectDto.getDeadline().getTime()));
         projectRepository.save(project);
 
         return "redirect:/project/{projectId}";

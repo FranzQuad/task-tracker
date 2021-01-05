@@ -28,7 +28,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <h6>${project.id}</h6>
                             <h6>${project.name}</h6>
-                            <h6>${project.finished}</h6>
+                            <h6>${project.deadline}</h6>
                             <span class="badge badge-primary badge-pill">14</span>
                             <a href="/project/${project.id}" class="btn btn-primary">Open</a>
                         </li>
