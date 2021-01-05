@@ -1,4 +1,4 @@
-<div fragment="copy">
+<div class="container">
 
     <ul class="list-group list-group-flush">
         <#foreach issue in issues>

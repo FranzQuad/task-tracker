@@ -11,8 +11,14 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class ProjectDto {
-    private String description;
+
     private String name;
+
+    private String description;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private Date started;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date deadline;
 }
