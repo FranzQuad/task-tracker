@@ -74,14 +74,6 @@ public class ProjectController {
         return "redirect:/myprojects";
     }
 
-    @PostMapping(value = "/issue/{issueId}/edit-status")
-    public String changeIssueStatus(@PathVariable Long issueId, @RequestParam String status) {
-        Issue issue = issueRepository.findById(issueId).orElseThrow();
-        issue.setIssueStatus(IssueStatus.valueOf(status));
-        issueRepository.save(issue);
-        return "redirect:/myprojects";
-    }
-
     @PostMapping(value = "/participant/{participantId}/edit-role")
     public String editParticipant(@PathVariable Long participantId, @RequestParam String role) {
         ProjectParticipant projectParticipant = projectParticipantRepository.getOne(participantId);

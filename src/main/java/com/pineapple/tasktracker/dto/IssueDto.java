@@ -21,4 +21,8 @@ public class IssueDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private String issueStatus;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date finished;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date deadline;
 }

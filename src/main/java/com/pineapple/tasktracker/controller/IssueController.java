@@ -9,6 +9,7 @@ import com.pineapple.tasktracker.model.enums.ProjectRole;
 import com.pineapple.tasktracker.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.stream.events.Comment;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,7 +30,6 @@ public class IssueController {
 
     private final IssueRepository issueRepository;
     private final ProjectRepository projectRepository;
-    private final ProjectParticipantRepository projectParticipantRepository;
     private final UserRepository userRepository;
     private final IssueCommentRepository issueCommentRepository;
 
@@ -67,16 +68,54 @@ public class IssueController {
         String username = ((UserDetails)principal).getUsername();
         User user = userRepository.findByName(username).orElseThrow();
 
-        Project project = issue.getIssueProject();
-        ProjectParticipant projectParticipant = projectParticipantRepository.findFirstByUserAndProject(user, project);
-
         IssueComment comment = new IssueComment();
         comment.setCreated(new Timestamp(new Date().getTime()));
         comment.setText(commentDto.getText());
         comment.setIssue(issue);
-        comment.setAuthor(projectParticipant);
+        comment.setAuthor(user);
         issueCommentRepository.save(comment);
 
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-description")
+    public String changeIssueDescription(@PathVariable Long id, @RequestParam String description) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        issue.setDescription(description);
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-name")
+    public String changeIssueName(@PathVariable Long id, @RequestParam String name) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        issue.setName(name);
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-status")
+    public String changeIssueStatus(@PathVariable Long id, @RequestParam String status) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        issue.setIssueStatus(IssueStatus.valueOf(status));
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-deadline")
+    public String changeIssueDeadline(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        issue.setDeadline(new Timestamp(issueDto.getDeadline().getTime()));
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-finished")
+    public String changeIssueFinished(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
+        System.out.println(issueDto.getFinished().getTime());
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        issue.setFinished(new Timestamp(issueDto.getFinished().getTime()));
+        issueRepository.save(issue);
         return "redirect:/issue/{id}";
     }
 }

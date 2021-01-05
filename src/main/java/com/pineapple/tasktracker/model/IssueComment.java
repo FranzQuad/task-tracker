@@ -27,6 +27,6 @@ public class IssueComment extends AbstractEntity{
     private Issue issue;
 
     @OneToOne
-    @JoinColumn(name = "projectparticipant_id")
-    private ProjectParticipant author;
+    @JoinColumn(name = "user_id")
+    private User author;
 }
