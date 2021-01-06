@@ -7,6 +7,7 @@
 </#macro>
 
 <#macro body>
+
 <#include '../components/navbar.ftl'>
     <div class="container-fluid" style="width: 100%;">
         <div class="row">
@@ -17,6 +18,7 @@
                 </div>
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 100px; background-color: ghostwhite; margin-top: 10px; border-radius: 15px; overflow: hidden; word-wrap: break-word;" data-toggle="modal" data-target="#editDescription">
                     <p style="font-size: medium;">${issue.getDescription()}</p>
+
                 </div>
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 100px; background-color: ghostwhite; margin-top: 10px; border-radius: 15px;">
                     <div class="container-fluid" style="height: 190px; overflow-y: scroll;">
@@ -28,6 +30,7 @@
                                     <h6>${issue.getStarted()}</h6>
                                     <h6>${issue.getFinished()}</h6>
                                     <a href="/issue/${issue.id}" class="btn btn-primary">Open</a>
+
                                 </li>
                             </#foreach>
                         </ul>
@@ -113,6 +116,7 @@
             </#foreach>
         </ul>
     </div>
+
     <div class="container-fluid">
         <div class="row mx-0" style="width: 80%; height: 100px; margin-top: 20px; margin-right: 25px; display: flex; justify-content: flex-end;">
             <form action="/issue/${issue.getId()}/add-comment" method="post" style="width: 100%;">

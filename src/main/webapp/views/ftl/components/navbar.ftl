@@ -1,6 +1,6 @@
 <div fragment="copy">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/login">
+        <a class="navbar-brand" href="/myprojects">
             <strong>PineappleTT</strong>
         </a>
         <a href="/myprojects" type="button" class="btn btn-dark" style="background-color: green" >My Projects
@@ -15,8 +15,8 @@
 
         <form action="/logout" method="post" style="margin-left: auto;">
             <div style="font-size: 18px; color: white;">
-                User Name
-                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log out</button>
+                ${username}
+                <button class="btn btn-outline-danger my-2 my-sm-0" style="margin-left: 10px;" type="submit">Log out</button>
             </div>
         </form>
     </nav>
@@ -31,17 +31,54 @@
                 </div>
                 <form action="add-project" method="post">
                     <div class="modal-body">
-                        <div class="input-group mb-3">
+                        <!-- Name -->
+                        <div class="input-group mb-3" style="width: 100%;">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
                             </div>
 
                             <input name="name" type="text" class="form-control" aria-label="Sizing example input"
                                    aria-describedby="inputGroup-sizing-default">
+                        </div>
 
-                            <input name="date" type="date" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default">
+                        <!-- Description -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Description</span>
+                                </div>
+                                <textarea name="description" class="form-control" aria-label="Project Description"></textarea>
+                            </div>
+                        </div>
 
+                        <!-- Start Date -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="d-flex bd-highlight" style="width: 100%;">
+                                <div class="p-2 bd-highlight">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Start</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto p-2 bd-highlight">
+                                    <input name="started" type="date" class="form-control" aria-label="Sizing example input"
+                                                                             aria-describedby="inputGroup-sizing-default">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Deadline -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="d-flex bd-highlight" style="width: 100%;">
+                                <div class="p-2 bd-highlight">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Deadline</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto p-2 bd-highlight">
+                                    <input name="deadline" type="date" class="form-control" aria-label="Sizing example input"
+                                           aria-describedby="inputGroup-sizing-default">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

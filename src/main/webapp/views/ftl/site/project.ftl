@@ -1,6 +1,6 @@
 <#include '../base.ftl'>
 
-<#macro title>Welcome</#macro>
+<#macro title>${project.name}</#macro>
 
 <#macro stylesheets>
     <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css"/>
@@ -19,10 +19,6 @@
                aria-selected="false">Tasks</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link text-dark" id="participants-tab" data-toggle="tab" href="#participants" role="tab"
-               aria-controls="participants" aria-selected="false">Participants</a>
-        </li>
-        <li class="nav-item" role="presentation">
             <a class="nav-link text-dark" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about"
                aria-selected="false">About</a>
         </li>
@@ -33,9 +29,6 @@
         </div>
         <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
             <#include '../components/project_tasks.ftl'>
-        </div>
-        <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">
-            <#include '../components/project_participants.ftl'>
         </div>
         <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
             <#include '../components/project_about.ftl'>
