@@ -49,7 +49,11 @@
                                 </tr>
                                 <tr>
                                     <th>Assignee</th>
-                                    <th>Aizat</th>
+                                    <th>
+                                        <#foreach issueParticipant in issue.projectParticipants>
+                                            <p>${issueParticipant.user.name}</p>
+                                        </#foreach>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <th>Status</th>
@@ -57,7 +61,17 @@
                                 </tr>
                                 <tr>
                                     <th>Created</th>
-                                    <th>${issue.getStarted()}</th>
+                                    <th>${issue.getCreated()}</th>
+                                </tr>
+                                <tr>
+                                    <th>Started</th>
+                                    <th data-toggle="modal" data-target="#editStarted" type="datetime">
+                                    <#if issue.getStarted()??>
+                                        ${issue.getStarted()}
+                                    <#else>
+                                        ""
+                                    </#if>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <th>Deadline</th>
@@ -106,7 +120,7 @@
                 <button type="submit" class="btn btn-primary float-right" style="margin-top: 10px; margin-left: 25px;">Submit</button>
             </form>
         </div>
-
+    </div>
     <div id="editDescription" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -212,6 +226,27 @@
                 <form action="/issue/${issue.id}/edit-finished" method="post">
                     <div class="modal-body">
                         <input name="finished" type="date" value="${issue.getFinished()}" class="form-control" aria-label="Sizing example input"
+                               aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-default" style="background-color: orange">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="editStarted" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit started</h4>
+                </div>
+                <form action="/issue/${issue.id}/edit-started" method="post">
+                    <div class="modal-body">
+                        <input name="started" type="date" value="${issue.getStarted()}" class="form-control" aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="modal-footer">

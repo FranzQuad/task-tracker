@@ -54,10 +54,16 @@ public class ProjectController {
     public String addIssueForProject(@ModelAttribute IssueDto issueDto) {
         Project project = projectRepository.findById(issueDto.getProjectId()).orElseThrow();
         Issue issue = new Issue();
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails)principal).getUsername();
+        User reporter = userRepository.findByName(username).orElseThrow();
+
+        issue.setReporter(reporter);
         issue.setIssueProject(project);
         issue.setName(issueDto.getName());
         issue.setDescription(issueDto.getDescription());
-        issue.setStarted(new Timestamp(new Date().getTime()));
+        issue.setCreated(new Timestamp(new Date().getTime()));
         issue.setFinished(new Timestamp(issueDto.getDate().getTime()));
         issue.setProjectParticipants(issueDto.getUserIds().stream()
                 .map(userId -> projectParticipantRepository.save(
