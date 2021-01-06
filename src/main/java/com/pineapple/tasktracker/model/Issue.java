@@ -37,7 +37,7 @@ public class Issue extends AbstractEntity {
 	private String description;
 
 	@OneToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "reporter")
 	private User reporter;
 
 	@ManyToOne(fetch = FetchType.LAZY)

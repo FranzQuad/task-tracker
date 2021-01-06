@@ -30,7 +30,6 @@
                                     <h6>${issue.getStarted()}</h6>
                                     <h6>${issue.getFinished()}</h6>
                                     <a href="/issue/${issue.id}" class="btn btn-primary">Open</a>
-
                                 </li>
                             </#foreach>
                         </ul>
@@ -48,7 +47,7 @@
                                 </tr>
                                 <tr>
                                     <th>Reporter</th>
-                                    <th>${issue.reporter.getName()}</th>
+                                    <th>Hello</th>
                                 </tr>
                                 <tr>
                                     <th>Assignee</th>
@@ -69,30 +68,24 @@
                                 <tr>
                                     <th>Started</th>
                                     <th data-toggle="modal" data-target="#editStarted" type="datetime">
-                                    <#if issue.getStarted()??>
-                                        ${issue.getStarted()}
-                                    <#else>
-                                        ""
+                                    <#if issue.started??>
+                                        ${issue.started}
                                     </#if>
                                     </th>
                                 </tr>
                                 <tr>
                                     <th>Deadline</th>
                                     <th data-toggle="modal" data-target="#editDeadline" type="datetime">
-                                        <#if issue.getDeadline()??>
-                                            ${issue.getDeadline()}
-                                        <#else>
-                                            ""
+                                        <#if issue.deadline??>
+                                            ${issue.deadline}
                                         </#if>
                                     </th>
                                 </tr>
                                 <tr>
                                     <th>Finished</th>
                                     <th data-toggle="modal" data-target="#editFinished" type="datetime">
-                                        <#if issue.getFinished()??>
-                                            ${issue.getFinished()}
-                                        <#else>
-                                            ""
+                                        <#if issue.finished??>
+                                            ${issue.finished}
                                         </#if>
                                     </th>
                                 </tr>
@@ -208,7 +201,8 @@
                 </div>
                 <form action="/issue/${issue.id}/edit-deadline" method="post">
                     <div class="modal-body">
-                        <input name="deadline" type="date" value="${issue.getDeadline()}" class="form-control" aria-label="Sizing example input"
+                        <input name="deadline" type="date" value="<#if issue.deadline??>${issue.deadline}</#if>"
+                               class="form-control" aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="modal-footer">
@@ -229,7 +223,7 @@
                 </div>
                 <form action="/issue/${issue.id}/edit-finished" method="post">
                     <div class="modal-body">
-                        <input name="finished" type="date" value="${issue.getFinished()}" class="form-control" aria-label="Sizing example input"
+                        <input name="finished" type="date" value="<#if issue.finished??>${issue.finished}</#if>" class="form-control" aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="modal-footer">
@@ -250,7 +244,7 @@
                 </div>
                 <form action="/issue/${issue.id}/edit-started" method="post">
                     <div class="modal-body">
-                        <input name="started" type="date" value="${issue.getStarted()}" class="form-control" aria-label="Sizing example input"
+                        <input name="started" type="date" value="<#if issue.started??>${issue.started}</#if>" class="form-control" aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="modal-footer">
