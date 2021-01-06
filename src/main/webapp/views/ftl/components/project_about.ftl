@@ -113,6 +113,7 @@
                         <td style="text-align: center; vertical-align: center;">${projectparticipant.projectRole}</td>
                         <td style="text-align: center; vertical-align: center;">${projectparticipant.user.email}</td>
                         <td style="text-align: center; vertical-align: center;">
+                            <form action="/project/${project.id}/${projectparticipant.id}/edit-participant"></form>
                             <button type="button" class="btn btn-dark" style="background-color: orange; width: 80px;
                     height: 35px;" data-toggle="modal" data-target="#editParticipant">
                                 Edit
@@ -304,7 +305,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Edit Participant</h4>
                 </div>
-                <form action="/project/${project.id}/add-participant" method="post">
+                <form action="/project/${project.id}/edit-participant" method="post">
                     <div class="modal-body">
                         <div class="container-fluid">
                             <input name="name" type="text" class="form-control">

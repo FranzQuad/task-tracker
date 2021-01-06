@@ -3,12 +3,12 @@
         <a class="navbar-brand" href="/myprojects">
             <strong>PineappleTT</strong>
         </a>
-        <a href="/myprojects" type="button" class="btn btn-dark" style="background-color: green" >My Projects
+        <a href="/myprojects" type="button" class="btn btn-success">My Projects
         </a>
-        <button type="button" class="btn btn-dark" style="background-color: orange" data-toggle="modal"
+        <button type="button" class="btn btn-warning" style="margin-left: 10px;" data-toggle="modal"
                 data-target="#newProject">New Project
         </button>
-        <button type="button" class="btn btn-dark" style="background-color: orange" data-toggle="modal"
+        <button type="button" class="btn btn-warning" style="margin-left: 2px;" data-toggle="modal"
                 data-target="#newTask">New Task
         </button>
 
