@@ -113,9 +113,16 @@ public class IssueController {
 
     @PostMapping(value = "/issue/{id}/edit-finished")
     public String changeIssueFinished(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
-        System.out.println(issueDto.getFinished().getTime());
         Issue issue = issueRepository.findById(id).orElseThrow();
         issue.setFinished(new Timestamp(issueDto.getFinished().getTime()));
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-started")
+    public String changeIssueStarted(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        issue.setStarted(new Timestamp(issueDto.getStarted().getTime()));
         issueRepository.save(issue);
         return "redirect:/issue/{id}";
     }

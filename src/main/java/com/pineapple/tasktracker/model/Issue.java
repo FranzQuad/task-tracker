@@ -14,14 +14,18 @@ import java.util.List;
 @Getter
 @Table
 public class Issue extends AbstractEntity {
+
 	@Column
-	private Timestamp finished;
+	private Timestamp created;
 
 	@Column
 	private Timestamp started;
 
 	@Column
 	private Timestamp deadline;
+
+	@Column
+	private Timestamp finished;
 
 	@Column
 	private Timestamp redline;
@@ -32,7 +36,7 @@ public class Issue extends AbstractEntity {
 	@Column
 	private String description;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User reporter;
 
