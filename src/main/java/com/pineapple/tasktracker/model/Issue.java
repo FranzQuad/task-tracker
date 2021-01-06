@@ -3,6 +3,7 @@ package com.pineapple.tasktracker.model;
 import com.pineapple.tasktracker.model.enums.IssueStatus;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -20,10 +21,20 @@ public class Issue extends AbstractEntity {
 	private Timestamp started;
 
 	@Column
+	private Timestamp deadline;
+
+	@Column
+	private Timestamp redline;
+
+	@Column
 	private String name;
 
 	@Column
 	private String description;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User reporter;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_issue_id")
