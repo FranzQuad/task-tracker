@@ -22,7 +22,13 @@ public class Project extends AbstractEntity {
     private String description;
 
     @Column
+    private Timestamp created;
+
+    @Column
     private Timestamp started;
+
+    @Column
+    private Timestamp deadline;
 
     @Column
     private Timestamp finished;
