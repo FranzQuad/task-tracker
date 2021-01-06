@@ -126,7 +126,19 @@
 
         <hr>
 
-        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteProject">Delete</button>
+        <div class="d-flex bd-highlight" style="width: 100%;">
+            <div class="p-2 bd-highlight">
+                <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteProject">Delete</button>
+            </div>
+            <div class="ml-auto p-2 bd-highlight">
+                <#if project.finished??>
+                    <button disabled type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#completeProject">Complete</button>
+                    <#else>
+                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#completeProject">Complete</button>
+                </#if>
+            </div>
+        </div>
+
     </div>
 
     <!-- Edit project name modal window -->
@@ -170,24 +182,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <input type="submit" class="btn btn-default" style="background-color: orange">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project delete modal window -->
-    <div id="deleteProject" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"> Are you sure?</h4>
-                </div>
-                <form action="/project/${project.id}/delete" method="post">
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        <input type="submit" class="btn" style="background-color: red" value="Yes">
                     </div>
                 </form>
             </div>
@@ -270,8 +264,27 @@
                 </div>
                 <form action="/project/${project.id}/add-participant" method="post">
                     <div class="modal-body">
-                        <div class="container-fluid">
-                            <input name="name" type="text" class="form-control" value="${project.name}">
+                        <!-- Email -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+                            </div>
+
+                            <input name="email" type="text" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+
+                        <!-- Role -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Role</span>
+                            </div>
+
+                            <select name="role" class="form-control">
+                                <#foreach role in roles>
+                                    <option>${role.name()}</option>
+                                </#foreach>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -309,6 +322,42 @@
                                 <input type="submit" class="btn btn-default" style="background-color: orange">
                             </div>
                         </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project complete modal window -->
+    <div id="completeProject" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> Are you sure?</h4>
+                </div>
+                <form action="/project/${project.id}/complete" method="post">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <input type="submit" class="btn btn-success" value="Yes">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project delete modal window -->
+    <div id="deleteProject" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> Are you sure?</h4>
+                </div>
+                <form action="/project/${project.id}/delete" method="post">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <input type="submit" class="btn btn-danger" value="Yes">
                     </div>
                 </form>
             </div>

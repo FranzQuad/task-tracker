@@ -1,5 +1,5 @@
 <div fragment="copy">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/myprojects">
             <strong>PineappleTT</strong>
         </a>
@@ -100,54 +100,81 @@
                         <h4 class="modal-title">New Task</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="input-group mb-3" style="margin-bottom: 10px;">
+
+                        <!-- User projects -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Project</span>
+                            </div>
+
+                            <select name="projectId" class="form-control">
+                                <#foreach project in projects>
+                                    <option value="${project.id}">${project.name}</option>
+                                </#foreach>
+                            </select>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="input-group mb-3" style="width: 100%;">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
                             </div>
+
                             <input name="name" type="text" class="form-control" aria-label="Sizing example input"
                                    aria-describedby="inputGroup-sizing-default">
                         </div>
 
-                        <div class="input-group" style="margin-bottom: 10px;">
-                            <div class="input-group-append">
-                                <select name="userIds" multiple class="form-control">
-                                    <#foreach user in users>
-                                        <option value="${user.id}">${user.name}</option>
-                                    </#foreach>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="input-group">
+                        <!-- Description -->
+                        <div class="input-group mb-3" style="width: 100%;">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Description</span>
+                                <span class="input-group-text" id="inputGroup-sizing-default">Description</span>
                             </div>
+
                             <textarea name="description" class="form-control" aria-label="Project Description"></textarea>
                         </div>
 
-                        <input name="date" type="date" class="form-control" aria-label="Sizing example input"
-                               aria-describedby="inputGroup-sizing-default">
+                        <!-- Assignee -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Assignee</span>
+                            </div>
 
-                        <div class="input-group" style="margin-bottom: 10px;">
-                            <div class="input-group-append">
-                                <select name="issueStatus" class="form-control">
-                                    <#foreach status in statusList>
-                                        <option value="${status.name()}">${status.name()}</option>
-                                    </#foreach>
-                                </select>
+                            <select name="userIds" multiple class="form-control">
+                                <#foreach user in users>
+                                    <option value="${user.id}">${user.name}</option>
+                                </#foreach>
+                            </select>
+                        </div>
+
+                        <!-- Start Date -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="d-flex bd-highlight" style="width: 100%;">
+                                <div class="p-2 bd-highlight">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Start</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto p-2 bd-highlight">
+                                    <input name="started" type="date" class="form-control" aria-label="Sizing example input"
+                                           aria-describedby="inputGroup-sizing-default">
+                                </div>
                             </div>
                         </div>
 
-                        <div class="input-group" style="margin-bottom: 10px;">
-                            <div class="input-group-append">
-                                <select name="projectId" class="form-control">
-                                    <#foreach project in projects>
-                                        <option value="${project.id}">${project.name}</option>
-                                    </#foreach>
-                                </select>
+                        <!-- Deadline -->
+                        <div class="input-group mb-3" style="width: 100%;">
+                            <div class="d-flex bd-highlight" style="width: 100%;">
+                                <div class="p-2 bd-highlight">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Deadline</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto p-2 bd-highlight">
+                                    <input name="deadline" type="date" class="form-control" aria-label="Sizing example input"
+                                           aria-describedby="inputGroup-sizing-default">
+                                </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

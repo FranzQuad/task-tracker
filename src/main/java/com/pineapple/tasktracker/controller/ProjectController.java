@@ -2,6 +2,7 @@ package com.pineapple.tasktracker.controller;
 
 import com.pineapple.tasktracker.dto.IssueDto;
 import com.pineapple.tasktracker.dto.ProjectDto;
+import com.pineapple.tasktracker.dto.RegistrationDto;
 import com.pineapple.tasktracker.model.Issue;
 import com.pineapple.tasktracker.model.Project;
 import com.pineapple.tasktracker.model.ProjectParticipant;
@@ -40,7 +41,7 @@ public class ProjectController {
         String username = ((UserDetails) principal).getUsername();
         User user = userRepository.findByName(username).orElseThrow();
 
-        List<Issue> issues = issueRepository.findByUser(user);
+        List<Issue> issues = issueRepository.findByProject(project);
         List<Project> projects = projectRepository.findByUser(user);
         List<User> users = userRepository.findAll();
         List<ProjectParticipant> projectParticipants = projectParticipantRepository.findAllByProject(project);
@@ -58,6 +59,7 @@ public class ProjectController {
         model.addAttribute("statusList", new IssueStatus[]{IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
         model.addAttribute("username", username);
         model.addAttribute("projectparticipants", projectParticipants);
+        model.addAttribute("roles", new ProjectRole[]{ProjectRole.MANAGER, ProjectRole.ARCHITECT, ProjectRole.ANALYST, ProjectRole.DEVLEAD, ProjectRole.QA, ProjectRole.DEVELOPER, ProjectRole.TESTER});
 
         model.addAttribute("todoissues", toDoIssues);
         model.addAttribute("inprogissues", inProgressIssues);
@@ -65,34 +67,6 @@ public class ProjectController {
         model.addAttribute("completeIssues", completeIssues);
         return "site/project";
     }
-
-//    @PostMapping(value = "/add-project")
-//    String addNewProject(@ModelAttribute ProjectDto projectDto) {
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String username = ((UserDetails) principal).getUsername();
-//        User user = userRepository.findByName(username).orElseThrow();
-//
-//        Project project = new Project();
-//        project.setName(projectDto.getName());
-//        project.setDescription(projectDto.getDescription());
-//        project.setFinished(new Timestamp(projectDto.getDate().getTime()));
-//        project.setStarted(new Timestamp(new Date().getTime()));
-//        project.setProjectParticipants(new ArrayList<>());
-//        project = projectRepository.save(project);
-//
-//        ProjectParticipant projectParticipant = projectParticipantRepository.save(
-//                ProjectParticipant.builder()
-//                        .project(project)
-//                        .user(user)
-//                        .projectRole(ProjectRole.MANAGER)
-//                        .build()
-//        );
-//
-//        project.getProjectParticipants().add(projectParticipant);
-//        projectRepository.save(project);
-//
-//        return "redirect:/myprojects";
-//    }
 
     @PostMapping(value = "/project/add-issue")
     public String addIssueForProject(@ModelAttribute IssueDto issueDto) {
@@ -108,7 +82,8 @@ public class ProjectController {
         issue.setName(issueDto.getName());
         issue.setDescription(issueDto.getDescription());
         issue.setCreated(new Timestamp(new Date().getTime()));
-        issue.setFinished(new Timestamp(issueDto.getDate().getTime()));
+        issue.setStarted(new Timestamp(issueDto.getStarted().getTime()));
+        issue.setDeadline(new Timestamp(issueDto.getDeadline().getTime()));
         issue.setProjectParticipants(issueDto.getUserIds().stream()
                 .map(userId -> projectParticipantRepository.save(
                         ProjectParticipant.builder()
@@ -119,7 +94,7 @@ public class ProjectController {
                 ))
                 .collect(Collectors.toList())
         );
-        issue.setIssueStatus(IssueStatus.valueOf(issueDto.getIssueStatus()));
+        issue.setIssueStatus(IssueStatus.TO_DO);
         issueRepository.save(issue);
         return "redirect:/myprojects";
     }
@@ -167,6 +142,31 @@ public class ProjectController {
 
         return "redirect:/project/{projectId}";
     }
+
+    @PostMapping(value = "/project/{projectId}/add-participant")
+    public String addParticipant(@PathVariable Long projectId, @ModelAttribute RegistrationDto registrationDto, @RequestParam(value = "role") String role) {
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        User user = userRepository.findByEmail(registrationDto.getEmail()).orElseThrow();
+        ProjectParticipant projectParticipant = new ProjectParticipant();
+
+        projectParticipant.setProject(project);
+        projectParticipant.setUser(user);
+        projectParticipant.setProjectRole(ProjectRole.valueOf(role));
+
+        projectParticipantRepository.save(projectParticipant);
+
+        return "redirect:/project/{projectId}";
+    }
+
+    @PostMapping(value = "/project/{projectId}/complete")
+    public String complete(@PathVariable Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        project.setFinished(new Timestamp(new Date().getTime()));
+        projectRepository.save(project);
+
+        return "redirect:/project/{projectId}";
+    }
+
 
     /*
     TODO: Не доделано, проект не удаляется из-за issue participants
