@@ -172,6 +172,17 @@ public class ProjectController {
         return "redirect:/project/{projectId}";
     }
 
+    @PostMapping(value = "/project/{projectId}/edit-participant/{partId}")
+    public String editParticipant(@PathVariable Long projectId, @PathVariable Long partId, @RequestParam(value = "role") String role) {
+        ProjectParticipant projectParticipant = projectParticipantRepository.findById(partId).orElseThrow();
+
+        projectParticipant.setProjectRole(ProjectRole.valueOf(role));
+
+        projectParticipantRepository.save(projectParticipant);
+
+        return "redirect:/project/{projectId}";
+    }
+
     @PostMapping(value = "/project/{projectId}/add-participant")
     public String addParticipant(@PathVariable Long projectId, @ModelAttribute RegistrationDto registrationDto, @RequestParam(value = "role") String role) {
         Project project = projectRepository.findById(projectId).orElseThrow();
