@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class MyProjectsController {
 		List<Project> projects = projectRepository.findByUser(user);
 		List<User> users = userRepository.findAll();
 
+  
 		for (Issue issue: issues) {
 			if ((issue.getDeadline() != null ) && (issue.getIssueStatus() != IssueStatus.COMPLETE))
 			{
@@ -72,6 +74,7 @@ public class MyProjectsController {
 			}
 		}
 
+
 		model.addAttribute("projects", projects);
 		model.addAttribute("issues", issues);
 		model.addAttribute("users", users);
@@ -91,8 +94,18 @@ public class MyProjectsController {
 		project.setName(projectDto.getName());
 		project.setDescription(projectDto.getDescription());
 		project.setCreated(new Timestamp(new Date().getTime()));
-		project.setStarted(new Timestamp(projectDto.getStarted().getTime()));
-		project.setDeadline(new Timestamp(projectDto.getDeadline().getTime()));
+
+		if (projectDto.getStarted() != null) {
+			project.setStarted(new Timestamp(projectDto.getStarted().getTime()));
+		} else {
+			project.setStarted(null);
+		}
+
+		if (projectDto.getDeadline() != null) {
+			project.setDeadline(new Timestamp(projectDto.getDeadline().getTime()));
+		} else {
+			project.setDeadline(null);
+		}
 
 		project.setProjectParticipants(new ArrayList<>());
 		project = projectRepository.save(project);
