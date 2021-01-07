@@ -23,17 +23,19 @@
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 100px; background-color: ghostwhite; margin-top: 10px; border-radius: 15px;">
                     <div class="container-fluid" style="height: 190px; overflow-y: scroll;">
                         <ul class="list-group list-group-flush mx-0">
-                            <#foreach issue in issue.getChildIssues()>
+                            <#foreach sub_issue in issue.getChildIssues()>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <h6>${issue.getId()}</h6>
-                                    <h6>${issue.getName()}</h6>
-                                    <h6>${issue.getStarted()}</h6>
-                                    <h6>${issue.getFinished()}</h6>
-                                    <a href="/issue/${issue.id}" class="btn btn-primary">Open</a>
+                                    <h6>${sub_issue.getId()}</h6>
+                                    <h6>${sub_issue.getName()}</h6>
+                                    <h6>${sub_issue.getStarted()}</h6>
+                                    <h6>${sub_issue.getFinished()}</h6>
+                                    <a href="/issue/${sub_issue.id}" class="btn btn-primary">Open</a>
+                                    <button formaction="/issue/${sub_issue.id}/delete-issuelink" class="btn btn-primary">Delete</button>
                                 </li>
                             </#foreach>
                         </ul>
                     </div>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editChildIssues">Edit</button>
                 </div>
             </div>
             <div style="width: 20%; margin-left: 25px;">
@@ -47,11 +49,11 @@
                                 </tr>
                                 <tr>
                                     <th>Reporter</th>
-                                    <th>Hello</th>
+                                    <th>${issue.reporter.name}</th>
                                 </tr>
                                 <tr>
                                     <th>Assignee</th>
-                                    <th>
+                                    <th data-toggle="modal" data-target="#editAssignees">
                                         <#foreach issueParticipant in issue.projectParticipants>
                                             <p>${issueParticipant.user.name}</p>
                                         </#foreach>
@@ -60,6 +62,22 @@
                                 <tr>
                                     <th>Status</th>
                                     <th data-toggle="modal" data-target="#editStatus">${issue.getIssueStatus()}</th>
+                                </tr>
+                                <tr>
+                                    <th>Priority</th>
+                                    <th data-toggle="modal" data-target="#editPriority">
+                                        <#if issue.issuePriority??>
+                                            ${issue.getIssuePriority()}
+                                        </#if>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Severity</th>
+                                    <th data-toggle="modal" data-target="#editSeverity">
+                                        <#if issue.issueSeverity??>
+                                            ${issue.getIssueSeverity()}
+                                        </#if>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <th>Created</th>
@@ -246,6 +264,126 @@
                     <div class="modal-body">
                         <input name="started" type="date" value="<#if issue.started??>${issue.started}</#if>" class="form-control" aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-default" style="background-color: orange">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="editPriority" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Priority</h4>
+                </div>
+                <form action="/issue/${issue.id}/edit-priority" method="post">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <div class="input-group-append">
+                                    <select name="priority" class="form-control" id="editPriority">
+                                        <#foreach priority in priorityList>
+                                            <option value="${priority.name()}">${priority.name()}</option>
+                                        </#foreach>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-default" style="background-color: orange">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="editSeverity" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Severity</h4>
+                </div>
+                <form action="/issue/${issue.id}/edit-severity" method="post">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <div class="input-group-append">
+                                    <select name="severity" class="form-control" id="editSeverity">
+                                        <#foreach severity in severityList>
+                                            <option value="${severity.name()}">${severity.name()}</option>
+                                        </#foreach>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-default" style="background-color: orange">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="editAssignees" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Assignees</h4>
+                </div>
+                <form action="/issue/${issue.id}/edit-assignees" method="post">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <div class="input-group-append">
+                                    <select name="userIds" multiple class="form-control" id="editAssignees">
+                                        <#foreach issue_participant in issue.issueProject.projectParticipants>
+                                            <option value="${issue_participant.id}">${issue_participant.user.name}</option>
+                                        </#foreach>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-default" style="background-color: orange">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="editChildIssues" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit child issues</h4>
+                </div>
+                <form action="/issue/${issue.id}/edit-childIssues" method="post">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <div class="input-group-append">
+                                    <select name="childIssues" class="form-control" id="editChildIssues">
+                                        <#foreach child_issue in issue.issueProject.issues>
+                                            <option value="${child_issue.id}">${child_issue.name}</option>
+                                        </#foreach>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -4,6 +4,8 @@ import com.pineapple.tasktracker.dto.CommentDto;
 import com.pineapple.tasktracker.dto.IssueDto;
 import com.pineapple.tasktracker.dto.ProjectDto;
 import com.pineapple.tasktracker.model.*;
+import com.pineapple.tasktracker.model.enums.IssuePriority;
+import com.pineapple.tasktracker.model.enums.IssueSeverity;
 import com.pineapple.tasktracker.model.enums.IssueStatus;
 import com.pineapple.tasktracker.model.enums.ProjectRole;
 import com.pineapple.tasktracker.repository.*;
@@ -32,11 +34,26 @@ public class IssueController {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final IssueCommentRepository issueCommentRepository;
+    private final ProjectParticipantRepository projectParticipantRepository;
 
     @GetMapping(value = "/issue/{id}")
     public String projects(Model model, @PathVariable long id)
     {
         Issue issue = issueRepository.findById(id).orElseThrow();
+        if ((issue.getDeadline() != null ) && (issue.getIssueStatus() != IssueStatus.COMPLETE))
+        {
+            Date date = new Date();
+            Timestamp currentDate = new Timestamp(date.getTime());
+            if ((issue.getIssueStatus() == IssueStatus.OUTDATED) && (currentDate.compareTo(issue.getDeadline()) < 0))
+            {
+                issue.setIssueStatus(IssueStatus.TO_DO);
+            }
+            if ((issue.getIssueStatus() != IssueStatus.COMPLETE) && (currentDate.compareTo(issue.getDeadline()) > 0))
+            {
+                issue.setIssueStatus(IssueStatus.OUTDATED);
+            }
+            issueRepository.save(issue);
+        }
         Project project = projectRepository.findById(issue.getIssueProject().getId()).orElseThrow();
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -55,6 +72,9 @@ public class IssueController {
         model.addAttribute("users", users);
         model.addAttribute("comments", comments);
         model.addAttribute("statusList", new IssueStatus[] {IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
+        model.addAttribute("priorityList", new IssuePriority[] {IssuePriority.LOW, IssuePriority.MEDIUM, IssuePriority.HIGH, IssuePriority.CRITICAL});
+        model.addAttribute("severityList", new IssueSeverity[] {IssueSeverity.LOW, IssueSeverity.MODERATE, IssueSeverity.MAJOR, IssueSeverity.CRITICAL});
+
         model.addAttribute("username", username);
 
         return "site/issue";//here your name of your view (html)
@@ -98,8 +118,23 @@ public class IssueController {
     @PostMapping(value = "/issue/{id}/edit-status")
     public String changeIssueStatus(@PathVariable Long id, @RequestParam String status) {
         Issue issue = issueRepository.findById(id).orElseThrow();
-        issue.setIssueStatus(IssueStatus.valueOf(status));
-        issueRepository.save(issue);
+        boolean flag = true;
+        if (IssueStatus.valueOf(status) == IssueStatus.COMPLETE)
+        {
+            for (Issue childIssue : issue.getChildIssues())
+            {
+                if (childIssue.getIssueStatus() != IssueStatus.COMPLETE)
+                {
+                    flag = false;
+                }
+            }
+        }
+        if (flag)
+        {
+            issue.setIssueStatus(IssueStatus.valueOf(status));
+            issueRepository.save(issue);
+        }
+
         return "redirect:/issue/{id}";
     }
 
@@ -124,6 +159,64 @@ public class IssueController {
         Issue issue = issueRepository.findById(id).orElseThrow();
         issue.setStarted(new Timestamp(issueDto.getStarted().getTime()));
         issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-priority")
+    public String changeIssuePriority(@PathVariable Long id, @RequestParam String priority) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        issue.setIssuePriority(IssuePriority.valueOf(priority));
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-severity")
+    public String changeIssueSeverity(@PathVariable Long id, @RequestParam String severity) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        issue.setIssueSeverity(IssueSeverity.valueOf(severity));
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-assignees")
+    public String changeIssueAssignees(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        List<ProjectParticipant> issueProjectParticipants = new ArrayList<ProjectParticipant>();
+        for (Long participantId: issueDto.getUserIds())
+        {
+            ProjectParticipant participant = projectParticipantRepository.findById(participantId).orElseThrow();
+            if (!issueProjectParticipants.contains(participant))
+            {
+                issueProjectParticipants.add(participant);
+            }
+        }
+        issue.setProjectParticipants(issueProjectParticipants);
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/edit-childIssues")
+    public String changeIssueChildIssues(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
+        System.out.println(issue.getChildIssues().size());
+        List<Issue> childIssues = issue.getChildIssues();
+        for (Issue childIssue: issueDto.getChildIssues())
+        {
+            if ((!childIssues.contains(childIssue)) && (!issue.equals(childIssue))) {
+                childIssues.add(childIssue);
+                childIssue.setParentIssue(issue);
+                issueRepository.save(childIssue);
+            }
+        }
+        issue.setChildIssues(childIssues);
+        System.out.println(issue.getChildIssues().size());
+        issueRepository.save(issue);
+        return "redirect:/issue/{id}";
+    }
+
+    @PostMapping(value = "/issue/{id}/delete-issuelink")
+    public String deleteChildIssue(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
+        Issue issue = issueRepository.findById(id).orElseThrow();
         return "redirect:/issue/{id}";
     }
 }

@@ -1,5 +1,7 @@
 package com.pineapple.tasktracker.model;
 
+import com.pineapple.tasktracker.model.enums.IssuePriority;
+import com.pineapple.tasktracker.model.enums.IssueSeverity;
 import com.pineapple.tasktracker.model.enums.IssueStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -65,4 +67,12 @@ public class Issue extends AbstractEntity {
 	@Column
 	@Enumerated(EnumType.STRING)
 	private IssueStatus issueStatus;
+
+	@Column
+	@Enumerated(EnumType.STRING)
+	private IssuePriority issuePriority;
+
+	@Column
+	@Enumerated(EnumType.STRING)
+	private IssueSeverity issueSeverity;
 }

@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +49,23 @@ public class MyProjectsController {
 		List<Project> projects = projectRepository.findByUser(user);
 		List<User> users = userRepository.findAll();
 
+		for (Issue issue: issues) {
+			if ((issue.getDeadline() != null ) && (issue.getIssueStatus() != IssueStatus.COMPLETE))
+			{
+				Date date = new Date();
+				Timestamp currentDate = new Timestamp(date.getTime());
+				if ((issue.getIssueStatus() == IssueStatus.OUTDATED) && (currentDate.compareTo(issue.getDeadline()) < 0))
+				{
+					issue.setIssueStatus(IssueStatus.TO_DO);
+				}
+				if ((issue.getIssueStatus() != IssueStatus.COMPLETE) && (currentDate.compareTo(issue.getDeadline()) > 0))
+				{
+					issue.setIssueStatus(IssueStatus.OUTDATED);
+				}
+				issueRepository.save(issue);
+			}
+		}
+
 		for (Project p : projects) {
 			if (p.getDeadline() == null) {
 				p.setDeadline(new Timestamp(0000-00-00));
@@ -56,7 +75,7 @@ public class MyProjectsController {
 		model.addAttribute("projects", projects);
 		model.addAttribute("issues", issues);
 		model.addAttribute("users", users);
-		model.addAttribute("statusList", new IssueStatus[] {IssueStatus.TO_DO, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.COMPLETE});
+		model.addAttribute("statusList", new IssueStatus[] {IssueStatus.TO_DO, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.COMPLETE, IssueStatus.OUTDATED});
 		model.addAttribute("username", username);
 
 		return "site/myprojects";
