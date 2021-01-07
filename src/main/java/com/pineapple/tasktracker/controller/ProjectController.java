@@ -59,6 +59,14 @@ public class ProjectController {
         User user = userRepository.findByName(username).orElseThrow();
 
         List<Issue> issues = issueRepository.findByProject(project);
+
+        boolean allTasksCompleted = true;
+        for (Issue i : issues) {
+            if (i.getIssueStatus() != IssueStatus.COMPLETE) {
+                allTasksCompleted = false;
+            }
+        }
+
         List<Project> projects = projectRepository.findByUser(user);
         List<User> users = userRepository.findAll();
         List<ProjectParticipant> projectParticipants = projectParticipantRepository.findAllByProject(project);
@@ -68,6 +76,7 @@ public class ProjectController {
         List<Issue> inProgressIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.IN_PROGRESS);
         List<Issue> readyForTestingIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.READY_FOR_TESTING);
         List<Issue> completeIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.COMPLETE);
+        List<Issue> outdatedIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.OUTDATED);
 
         model.addAttribute("project", project);
         model.addAttribute("projects", projects);
@@ -82,6 +91,9 @@ public class ProjectController {
         model.addAttribute("inprogissues", inProgressIssues);
         model.addAttribute("readyfortestingissues", readyForTestingIssues);
         model.addAttribute("completeIssues", completeIssues);
+        model.addAttribute("outdatedIssues", outdatedIssues);
+        model.addAttribute("allTasksCompleted", allTasksCompleted);
+
         return "site/project";
     }
 
@@ -156,6 +168,17 @@ public class ProjectController {
         Project project = projectRepository.findById(projectId).orElseThrow();
         project.setDeadline(new Timestamp(projectDto.getDeadline().getTime()));
         projectRepository.save(project);
+
+        return "redirect:/project/{projectId}";
+    }
+
+    @PostMapping(value = "/project/{projectId}/edit-participant/{partId}")
+    public String editParticipant(@PathVariable Long projectId, @PathVariable Long partId, @RequestParam(value = "role") String role) {
+        ProjectParticipant projectParticipant = projectParticipantRepository.findById(partId).orElseThrow();
+
+        projectParticipant.setProjectRole(ProjectRole.valueOf(role));
+
+        projectParticipantRepository.save(projectParticipant);
 
         return "redirect:/project/{projectId}";
     }

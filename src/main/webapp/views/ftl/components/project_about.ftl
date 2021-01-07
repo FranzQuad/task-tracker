@@ -113,11 +113,53 @@
                         <td style="text-align: center; vertical-align: center;">${projectparticipant.projectRole}</td>
                         <td style="text-align: center; vertical-align: center;">${projectparticipant.user.email}</td>
                         <td style="text-align: center; vertical-align: center;">
-                            <form action="/project/${project.id}/${projectparticipant.id}/edit-participant"></form>
-                            <button type="button" class="btn btn-dark" style="background-color: orange; width: 80px;
+                            <form action="/project/${project.id}/edit-participant/${projectparticipant.id}">
+                                <button type="button" class="btn btn-dark" style="background-color: orange; width: 80px;
                     height: 35px;" data-toggle="modal" data-target="#editParticipant">
-                                Edit
-                            </button>
+                                    Edit
+                                </button>
+
+                                <!-- Edit participant project role modal window -->
+                                <div id="editParticipant" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Edit Participant</h4>
+                                            </div>
+                                            <form action="/project/${project.id}/edit-participant/${projectparticipant.id}" method="post">
+                                                <div class="modal-body">
+                                                    <!-- Role -->
+                                                    <div class="input-group mb-3" style="width: 100%;">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="inputGroup-sizing-default">Role</span>
+                                                        </div>
+
+                                                        <select name="role" class="form-control">
+                                                            <#foreach role in roles>
+                                                                <option>${role.name()}</option>
+                                                            </#foreach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="d-flex bd-highlight" style="width: 100%;">
+                                                        <div class="p-2 bd-highlight" style="font-weight: bold">
+                                                            <form action="/project/${project.id}/delete-participant/${projectparticipant.id}">
+                                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="ml-auto p-2 bd-highlight">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                            <input type="submit" class="btn btn-default" style="background-color: orange">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </td>
                     </tr>
                 </#foreach>
@@ -297,52 +339,37 @@
         </div>
     </div>
 
-    <!-- Edit participant project role modal window -->
-    <div id="editParticipant" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Participant</h4>
-                </div>
-                <form action="/project/${project.id}/edit-participant" method="post">
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <input name="name" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="d-flex bd-highlight" style="width: 100%;">
-                            <div class="p-2 bd-highlight" style="font-weight: bold">
-                                <form action="/project/${project.id}/delete-participant">
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </div>
-                            <div class="ml-auto p-2 bd-highlight">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <input type="submit" class="btn btn-default" style="background-color: orange">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Project complete modal window -->
     <div id="completeProject" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"> Are you sure?</h4>
-                </div>
-                <form action="/project/${project.id}/complete" method="post">
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        <input type="submit" class="btn btn-success" value="Yes">
+                <#if allTasksCompleted == true >
+                    <div class="modal-header">
+                        <h4 class="modal-title"> Are you sure?</h4>
                     </div>
-                </form>
+                    <form action="/project/${project.id}/complete" method="post">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                            <input type="submit" class="btn btn-success" value="Yes">
+                        </div>
+                    </form>
+                    <#else>
+                        <div class="modal-header">
+                            <h4 class="modal-title"> Are you sure?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4 style="color: red; text-align: center;">You cannot complete the project because not all tasks are completed!</h4>
+                        </div>
+                        <form action="/project/${project.id}/complete" method="post">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                <input disabled type="submit" class="btn btn-success" value="Yes">
+                            </div>
+                        </form>
+                </#if>
             </div>
         </div>
     </div>
