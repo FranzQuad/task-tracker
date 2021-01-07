@@ -1,5 +1,10 @@
 package com.pineapple.tasktracker.dto;
 
+
+import com.pineapple.tasktracker.model.Issue;
+import com.pineapple.tasktracker.model.User;
+import com.pineapple.tasktracker.model.enums.IssueStatus;
+
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,4 +30,5 @@ public class IssueDto {
     private Date finished;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
+    private List<Issue> childIssues;
 }
