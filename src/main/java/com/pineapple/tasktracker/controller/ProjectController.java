@@ -58,7 +58,7 @@ public class ProjectController {
         String username = ((UserDetails) principal).getUsername();
         User user = userRepository.findByName(username).orElseThrow();
 
-        List<Issue> issues = issueRepository.findByProject(project);
+        List<Issue> issues = issueRepository.findByIssueProject(project);
 
         boolean allTasksCompleted = true;
         for (Issue i : issues) {
@@ -214,7 +214,7 @@ public class ProjectController {
     @PostMapping(value = "/project/{projectId}/delete")
     public String deleteProject(@PathVariable Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
-        List<Issue> projectIssues = issueRepository.findByProject(project);
+        List<Issue> projectIssues = issueRepository.findByIssueProject(project);
         List<ProjectParticipant> projectParticipants = projectParticipantRepository.findAllByProject(project);
 
         projectParticipantRepository.deleteAll(projectParticipants);

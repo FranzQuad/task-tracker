@@ -56,7 +56,7 @@
                                         </#if>
                                     </td>
                                     <td style="text-align: center; vertical-align: center; background-color: #6EC679;">
-                                        <span class="badge badge-primary badge-pill">14</span>
+                                        <span class="badge badge-primary badge-pill">${project.getNotCompletedTasksCount()}</span>
                                     </td>
                                     <td style="text-align: center; vertical-align: center; background-color: #6EC679;">
                                         <a href="/project/${project.id}" class="btn btn-primary">Open</a>
@@ -81,7 +81,7 @@
                                             </#if>
                                         </td>
                                         <td style="text-align: center; vertical-align: center;">
-                                            <span class="badge badge-primary badge-pill">14</span>
+                                            <span class="badge badge-primary badge-pill">${project.getNotCompletedTasksCount()}</span>
                                         </td>
                                         <td style="text-align: center; vertical-align: center;">
                                             <a href="/project/${project.id}" class="btn btn-primary">Open</a>
@@ -100,7 +100,7 @@
                             <h4 style="margin-left: 3%; margin-top: 1%;">In Progress</h4>
                         </div>
                         <div style="width: 50%">
-                            <h4 style="margin-left: 3%; margin-top: 1%;">Closed</h4>
+                            <h4 style="margin-left: 3%; margin-top: 1%;">Completed</h4>
                         </div>
                     </div>
                     <hr style="width: 100%">
