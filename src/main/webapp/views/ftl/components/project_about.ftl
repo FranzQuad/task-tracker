@@ -334,15 +334,30 @@
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"> Are you sure?</h4>
-                </div>
-                <form action="/project/${project.id}/complete" method="post">
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        <input type="submit" class="btn btn-success" value="Yes">
+                <#if allTasksCompleted == true >
+                    <div class="modal-header">
+                        <h4 class="modal-title"> Are you sure?</h4>
                     </div>
-                </form>
+                    <form action="/project/${project.id}/complete" method="post">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                            <input type="submit" class="btn btn-success" value="Yes">
+                        </div>
+                    </form>
+                    <#else>
+                        <div class="modal-header">
+                            <h4 class="modal-title"> Are you sure?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4 style="color: red; text-align: center;">You cannot complete the project because not all tasks are completed!</h4>
+                        </div>
+                        <form action="/project/${project.id}/complete" method="post">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                <input disabled type="submit" class="btn btn-success" value="Yes">
+                            </div>
+                        </form>
+                </#if>
             </div>
         </div>
     </div>

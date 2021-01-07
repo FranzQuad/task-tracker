@@ -59,6 +59,14 @@ public class ProjectController {
         User user = userRepository.findByName(username).orElseThrow();
 
         List<Issue> issues = issueRepository.findByProject(project);
+
+        boolean allTasksCompleted = true;
+        for (Issue i : issues) {
+            if (i.getIssueStatus() != IssueStatus.COMPLETE) {
+                allTasksCompleted = false;
+            }
+        }
+
         List<Project> projects = projectRepository.findByUser(user);
         List<User> users = userRepository.findAll();
         List<ProjectParticipant> projectParticipants = projectParticipantRepository.findAllByProject(project);
@@ -84,6 +92,7 @@ public class ProjectController {
         model.addAttribute("readyfortestingissues", readyForTestingIssues);
         model.addAttribute("completeIssues", completeIssues);
         model.addAttribute("outdatedIssues", outdatedIssues);
+        model.addAttribute("allTasksCompleted", allTasksCompleted);
 
         return "site/project";
     }
