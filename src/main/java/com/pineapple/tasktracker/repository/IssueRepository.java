@@ -21,11 +21,9 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     Optional<Issue> findByIdAndIssueProject(Long id, Project issueProject);
 
-    @Query("select i from Issue i where i.issueStatus = ?1")
-    List<Issue> findByStatus(IssueStatus issueStatus);
+    List<Issue> findByIssueStatus(IssueStatus issueStatus);
 
-    @Query("select i from Issue i where i.issueProject = ?1")
-    List<Issue> findByProject(Project issueProject);
+    List<Issue> findByIssueProject(Project issueProject);
 
     List<Issue> findAllByIssueProjectAndIssueStatus(Project issueProject, IssueStatus issueStatus);
 }

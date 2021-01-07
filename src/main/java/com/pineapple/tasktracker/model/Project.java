@@ -1,5 +1,6 @@
 package com.pineapple.tasktracker.model;
 
+import com.pineapple.tasktracker.model.enums.IssueStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,4 +39,10 @@ public class Project extends AbstractEntity {
 
     @OneToMany(mappedBy = "project")
     private List<ProjectParticipant> projectParticipants;
+
+    public long getNotCompletedTasksCount() {
+        return issues.stream()
+                .filter(issue -> issue.getIssueStatus() != IssueStatus.COMPLETE)
+                .count();
+    }
 }
