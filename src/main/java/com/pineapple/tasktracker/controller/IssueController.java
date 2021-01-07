@@ -71,7 +71,7 @@ public class IssueController {
         model.addAttribute("issue", issue);
         model.addAttribute("users", users);
         model.addAttribute("comments", comments);
-        model.addAttribute("statusList", new IssueStatus[] {IssueStatus.COMPLETE, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.TO_DO});
+        model.addAttribute("statusList", new IssueStatus[] {IssueStatus.TO_DO, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.COMPLETE});
         model.addAttribute("priorityList", new IssuePriority[] {IssuePriority.LOW, IssuePriority.MEDIUM, IssuePriority.HIGH, IssuePriority.CRITICAL});
         model.addAttribute("severityList", new IssueSeverity[] {IssueSeverity.LOW, IssueSeverity.MODERATE, IssueSeverity.MAJOR, IssueSeverity.CRITICAL});
 

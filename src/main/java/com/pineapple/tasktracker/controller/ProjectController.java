@@ -68,6 +68,7 @@ public class ProjectController {
         List<Issue> inProgressIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.IN_PROGRESS);
         List<Issue> readyForTestingIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.READY_FOR_TESTING);
         List<Issue> completeIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.COMPLETE);
+        List<Issue> outdatedIssues = issueRepository.findAllByIssueProjectAndIssueStatus(project, IssueStatus.OUTDATED);
 
         model.addAttribute("project", project);
         model.addAttribute("projects", projects);
@@ -82,6 +83,8 @@ public class ProjectController {
         model.addAttribute("inprogissues", inProgressIssues);
         model.addAttribute("readyfortestingissues", readyForTestingIssues);
         model.addAttribute("completeIssues", completeIssues);
+        model.addAttribute("outdatedIssues", outdatedIssues);
+
         return "site/project";
     }
 

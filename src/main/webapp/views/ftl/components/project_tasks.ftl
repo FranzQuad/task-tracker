@@ -36,6 +36,29 @@
                         <a href="/issue/${issue.id}" class="btn btn-primary">Open</a>
                     </td>
                 </tr>
+                <#elseif issue.issueStatus == "OUTDATED">
+                    <tr>
+                        <th scope="row" style="text-align: center; vertical-align: center; background-color: #FF6565;">${issue.id}</th>
+                        <td style="text-align: center; vertical-align: center; background-color: #FF6565;">${issue.name}</td>
+                        <td style="text-align: center; vertical-align: center; background-color: #FF6565;">
+                            <#foreach participant in issue.projectParticipants>
+                                ${participant.user.name}, ${participant.projectRole} <br>
+                            </#foreach>
+                        </td>
+                        <td style="text-align: center; vertical-align: center; background-color: #FF6565;">
+                            <#if issue.deadline??>
+                                ${issue.deadline}
+                            <#else>
+                                <strong style="color: red">Not specified!</strong>
+                            </#if>
+                        </td>
+                        <td style="text-align: center; vertical-align: center; background-color: #FF6565;">
+                            ${issue.issueStatus}
+                        </td>
+                        <td style="text-align: center; vertical-align: center; background-color: #FF6565;">
+                            <a href="/issue/${issue.id}" class="btn btn-primary">Open</a>
+                        </td>
+                    </tr>
                 <#else>
                     <tr>
                         <th scope="row" style="text-align: center; vertical-align: center;">${issue.id}</th>

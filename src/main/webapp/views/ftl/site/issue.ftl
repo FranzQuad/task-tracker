@@ -1,6 +1,6 @@
 <#include '../base.ftl'>
 
-<#macro title>Tasks</#macro>
+<#macro title>Task</#macro>
 
 <#macro stylesheets>
     <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css"/>
@@ -9,7 +9,7 @@
 <#macro body>
 
 <#include '../components/navbar.ftl'>
-    <div class="container-fluid" style="width: 100%;">
+    <div class="container-fluid" style="width: 100%; margin-top: 56px;">
         <div class="row">
             <div style="width: 75%; margin-left: 25px;">
                 <div class="row mx-0" style="width: 100%; max-width: 100%; height: 25px; max-height: 25px; text-align: left;  margin-top: 10px;" >
@@ -34,8 +34,12 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <h6 style="width: 5%;">${sub_issue.getId()}</h6>
                                     <h6 style="width: 35%;">${sub_issue.getName()}</h6>
-                                    <h6 style="width: 20%;">${sub_issue.getStarted()}</h6>
-                                    <h6 style="width: 20%;">${sub_issue.getFinished()}</h6>
+                                    <h6 style="width: 20%;">
+                                        <#if sub_issue.started??>${sub_issue.started}</#if>
+                                    </h6>
+                                    <h6 style="width: 20%;">
+                                        <#if sub_issue.finished??>${sub_issue.finished}</#if>
+                                    </h6>
                                     <a style="width: 10%;" href="/issue/${sub_issue.id}" class="btn btn-primary">Open</a>
                                     <button style="width: 10%;" formaction="/issue/${sub_issue.id}/delete-issuelink" class="btn btn-primary">Delete</button>
                                 </li>
@@ -43,7 +47,7 @@
                         </ul>
                     </div>
                     <div style="display:flex; justify-content:flex-end; width:100%; padding:0; margin-top: 10px;">
-                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#editChildIssues">Add</button>
+                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#editChildIssues">Add</button>
                     </div>
                 </div>
             </div>
@@ -123,7 +127,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="width: 100%;">
+    <div class="container-fluid" style="width: 100%; margin-top: 40px;">
         <div class="row">
             <div class="row mx-0" style="width: 100%; max-width: 100%; height: 25px; max-height: 25px; text-align: left; margin-top: 10px;" >
                 <p style="margin-left: 25px; width: 100%; max-width: 100%; height: 25px; max-height: 25px;">Comment section</p>
@@ -391,7 +395,7 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="input-group" style="margin-bottom: 10px;">
-                                <div class="input-group-append">
+                                <div class="input-group-append" style="width: 100%;">
                                     <select name="childIssues" class="form-control" id="editChildIssues">
                                         <#foreach child_issue in issue.issueProject.issues>
                                             <option value="${child_issue.id}">${child_issue.name}</option>
