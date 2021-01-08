@@ -141,7 +141,12 @@ public class IssueController {
     @PostMapping(value = "/issue/{id}/edit-deadline")
     public String changeIssueDeadline(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
         Issue issue = issueRepository.findById(id).orElseThrow();
-        issue.setDeadline(new Timestamp(issueDto.getDeadline().getTime()));
+        if (!(issueDto.getDeadline() == null))
+        {
+            issue.setDeadline(new Timestamp(issueDto.getDeadline().getTime()));
+        } else {
+            issue.setDeadline(null);
+        }
         issueRepository.save(issue);
         return "redirect:/issue/{id}";
     }
@@ -149,7 +154,11 @@ public class IssueController {
     @PostMapping(value = "/issue/{id}/edit-finished")
     public String changeIssueFinished(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
         Issue issue = issueRepository.findById(id).orElseThrow();
-        issue.setFinished(new Timestamp(issueDto.getFinished().getTime()));
+        if (!(issueDto.getFinished() == null)) {
+            issue.setFinished(new Timestamp(issueDto.getFinished().getTime()));
+        } else {
+            issue.setFinished(null);
+        }
         issueRepository.save(issue);
         return "redirect:/issue/{id}";
     }
@@ -157,15 +166,27 @@ public class IssueController {
     @PostMapping(value = "/issue/{id}/edit-started")
     public String changeIssueStarted(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
         Issue issue = issueRepository.findById(id).orElseThrow();
-        issue.setStarted(new Timestamp(issueDto.getStarted().getTime()));
+        if (!(issueDto.getStarted() == null)) {
+            issue.setStarted(new Timestamp(issueDto.getStarted().getTime()));
+        }
+        else {
+            issue.setStarted(null);
+        }
         issueRepository.save(issue);
+
         return "redirect:/issue/{id}";
     }
 
     @PostMapping(value = "/issue/{id}/edit-priority")
     public String changeIssuePriority(@PathVariable Long id, @RequestParam String priority) {
         Issue issue = issueRepository.findById(id).orElseThrow();
-        issue.setIssuePriority(IssuePriority.valueOf(priority));
+        if (!priority.isEmpty()) {
+            issue.setIssuePriority(IssuePriority.valueOf(priority));
+        }
+        else {
+            issue.setIssuePriority(null);
+        }
+
         issueRepository.save(issue);
         return "redirect:/issue/{id}";
     }
@@ -173,8 +194,13 @@ public class IssueController {
     @PostMapping(value = "/issue/{id}/edit-severity")
     public String changeIssueSeverity(@PathVariable Long id, @RequestParam String severity) {
         Issue issue = issueRepository.findById(id).orElseThrow();
-        issue.setIssueSeverity(IssueSeverity.valueOf(severity));
+        if (!severity.isEmpty()) {
+            issue.setIssueSeverity(IssueSeverity.valueOf(severity));
+        } else {
+            issue.setIssueSeverity(null);
+        }
         issueRepository.save(issue);
+
         return "redirect:/issue/{id}";
     }
 
@@ -182,15 +208,20 @@ public class IssueController {
     public String changeIssueAssignees(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
         Issue issue = issueRepository.findById(id).orElseThrow();
         List<ProjectParticipant> issueProjectParticipants = new ArrayList<ProjectParticipant>();
-        for (Long participantId: issueDto.getUserIds())
-        {
-            ProjectParticipant participant = projectParticipantRepository.findById(participantId).orElseThrow();
-            if (!issueProjectParticipants.contains(participant))
+        List<Long> selectedAssignees = issueDto.getUserIds();
+        if(selectedAssignees == null) {
+            issue.setProjectParticipants(null);
+        } else {
+            for (Long participantId: selectedAssignees)
             {
-                issueProjectParticipants.add(participant);
+                ProjectParticipant participant = projectParticipantRepository.findById(participantId).orElseThrow();
+                if (!issueProjectParticipants.contains(participant))
+                {
+                    issueProjectParticipants.add(participant);
+                }
             }
+            issue.setProjectParticipants(issueProjectParticipants);
         }
-        issue.setProjectParticipants(issueProjectParticipants);
         issueRepository.save(issue);
         return "redirect:/issue/{id}";
     }
@@ -198,7 +229,6 @@ public class IssueController {
     @PostMapping(value = "/issue/{id}/edit-childIssues")
     public String changeIssueChildIssues(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
         Issue issue = issueRepository.findById(id).orElseThrow();
-        System.out.println(issue.getChildIssues().size());
         List<Issue> childIssues = issue.getChildIssues();
         for (Issue childIssue: issueDto.getChildIssues())
         {
@@ -209,14 +239,22 @@ public class IssueController {
             }
         }
         issue.setChildIssues(childIssues);
-        System.out.println(issue.getChildIssues().size());
         issueRepository.save(issue);
         return "redirect:/issue/{id}";
     }
 
     @PostMapping(value = "/issue/{id}/delete-issuelink")
-    public String deleteChildIssue(@ModelAttribute IssueDto issueDto, @PathVariable Long id) {
+    public String deleteChildIssue(@PathVariable Long id, @RequestParam String subIssueId) {
         Issue issue = issueRepository.findById(id).orElseThrow();
+        Issue subIssue = issueRepository.findById(Long.valueOf(subIssueId)).orElseThrow();
+        List<Issue> childIssues = issue.getChildIssues();
+
+        childIssues.remove(subIssue);
+        if (subIssue.getParentIssue().equals(issue)) {
+            subIssue.setParentIssue(null);
+        }
+        issueRepository.save(issue);
+        issueRepository.save(subIssue);
         return "redirect:/issue/{id}";
     }
 }

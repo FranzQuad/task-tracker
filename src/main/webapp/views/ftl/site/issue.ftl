@@ -13,26 +13,26 @@
         <div class="row">
             <div style="width: 75%; margin-left: 25px;">
                 <div class="row mx-0" style="width: 100%; max-width: 100%; height: 25px; max-height: 25px; text-align: left;  margin-top: 10px;" >
-                    <p style="width: 100%; max-width: 100%; height: 25px; max-height: 25px;">Task name</p>
+                    <p style="width: 100%; max-width: 100%; height: 25px; max-height: 25px; font-weight: bold;">Task name</p>
                 </div>
                 <div class="row mx-0" style="width: 100%; max-width: 100%; height: 50px; max-height: 50px; text-align: left; border: 1px solid black;" data-toggle="modal" data-target="#editName">
                     <p style="font-size: x-large; width: 100%; max-width: 100%; height: 50px; max-height: 50px;">${issue.getName()}</p>
                 </div>
                 <div class="row mx-0" style="width: 100%; max-width: 100%; height: 25px; margin-top: 10px; max-height: 25px; text-align: left;" >
-                    <p style="width: 100%; max-width: 100%; height: 25px; max-height: 25px;">Task description</p>
+                    <p style="width: 100%; max-width: 100%; height: 25px; max-height: 25px; font-weight: bold;">Task description</p>
                 </div>
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 100px;  overflow: hidden; word-wrap: break-word; border: 1px solid black;" data-toggle="modal" data-target="#editDescription">
                     <p style="font-size: medium;">${issue.getDescription()}</p>
                 </div>
                 <div class="row mx-0" style="width: 100%; max-width: 100%; height: 25px; margin-top: 10px; max-height: 25px; text-align: left;" >
-                    <p style="width: 100%; max-width: 100%; height: 25px; max-height: 25px;">Sub tasks</p>
+                    <p style="width: 100%; max-width: 100%; height: 25px; max-height: 25px; font-weight: bold;">Sub tasks</p>
                 </div>
                 <div class="row mx-0" style="width: 100%; text-align: left; height: 300px; margin-top: 10px;">
                     <div class="container-fluid" style="height: 300px; overflow-y: scroll;  border: 1px solid black;">
                         <ul class="list-group list-group-flush mx-0">
                             <#foreach sub_issue in issue.getChildIssues()>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <h6 style="width: 5%;">${sub_issue.getId()}</h6>
+                                    <h6  style="width: 5%;">${sub_issue.getId()}</h6>
                                     <h6 style="width: 35%;">${sub_issue.getName()}</h6>
                                     <h6 style="width: 20%;">
                                         <#if sub_issue.started??>${sub_issue.started}</#if>
@@ -41,7 +41,10 @@
                                         <#if sub_issue.finished??>${sub_issue.finished}</#if>
                                     </h6>
                                     <a style="width: 10%;" href="/issue/${sub_issue.id}" class="btn btn-primary">Open</a>
-                                    <button style="width: 10%;" formaction="/issue/${sub_issue.id}/delete-issuelink" class="btn btn-primary">Delete</button>
+                                    <form action="/issue/${issue.getId()}/delete-issuelink" method="post">
+                                        <input name="subIssueId" type="text" class="form-control" value="${sub_issue.getId()}" hidden>
+                                        <button type="submit" class="btn btn-primary">Delete</button>
+                                    </form>
                                 </li>
                             </#foreach>
                         </ul>
@@ -56,6 +59,12 @@
                     <div class="card" style="border-radius: 15px;">
                         <table class='table table-striped' style="table-layout: fixed;">
                             <tbody>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>
+                                        <a href="/project/${issue.issueProject.id}">${issue.issueProject.name}</a>
+                                    </th>
+                                </tr>
                                 <tr>
                                     <th>Type</th>
                                     <th>Issue</th>
@@ -130,7 +139,7 @@
     <div class="container-fluid" style="width: 100%; margin-top: 40px;">
         <div class="row">
             <div class="row mx-0" style="width: 100%; max-width: 100%; height: 25px; max-height: 25px; text-align: left; margin-top: 10px;" >
-                <p style="margin-left: 25px; width: 100%; max-width: 100%; height: 25px; max-height: 25px;">Comment section</p>
+                <p style="margin-left: 25px; width: 100%; max-width: 100%; height: 25px; max-height: 25px; font-weight: bold;">Comment section</p>
             </div>
             <div style="overflow-y: scroll; width: 95%; height: 150px; margin-top: 20px; margin-left: 25px; border: 1px solid black;">
                 <ul class="list-group list-group-flush mx-0">
@@ -367,8 +376,8 @@
                             <div class="input-group" style="margin-bottom: 10px;">
                                 <div class="input-group-append">
                                     <select name="userIds" multiple class="form-control" id="editAssignees">
-                                        <#foreach issue_participant in issue.issueProject.projectParticipants>
-                                            <option value="${issue_participant.id}">${issue_participant.user.name}</option>
+                                        <#foreach issue_projectParticipant in issue.issueProject.projectParticipants>
+                                            <option value="${issue_projectParticipant.id}">${issue_projectParticipant.user.name}</option>
                                         </#foreach>
                                     </select>
                                 </div>
