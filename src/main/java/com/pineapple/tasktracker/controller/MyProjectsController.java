@@ -65,13 +65,6 @@ public class MyProjectsController {
 			}
 		}
 
-		for (Project p : projects) {
-			if (p.getDeadline() == null) {
-				p.setDeadline(new Timestamp(0000-00-00));
-			}
-		}
-
-
 		model.addAttribute("projects", projects);
 		model.addAttribute("issues", issues);
 		model.addAttribute("users", users);
