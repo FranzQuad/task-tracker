@@ -3,10 +3,7 @@ package com.pineapple.tasktracker.controller;
 import com.pineapple.tasktracker.dto.IssueDto;
 import com.pineapple.tasktracker.dto.ProjectDto;
 import com.pineapple.tasktracker.dto.RegistrationDto;
-import com.pineapple.tasktracker.model.Issue;
-import com.pineapple.tasktracker.model.Project;
-import com.pineapple.tasktracker.model.ProjectParticipant;
-import com.pineapple.tasktracker.model.User;
+import com.pineapple.tasktracker.model.*;
 import com.pineapple.tasktracker.model.enums.IssueStatus;
 import com.pineapple.tasktracker.model.enums.ProjectRole;
 import com.pineapple.tasktracker.repository.IssueRepository;
@@ -103,6 +100,9 @@ public class ProjectController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails)principal).getUsername();
         User reporter = userRepository.findByName(username).orElseThrow();
+        List<Long> projectParticipantsIds = projectParticipantRepository.findAllByProject(project).stream()
+                .map(projectParticipant -> projectParticipant.getUser().getId())
+                .collect(Collectors.toList());
 
         issue.setReporter(reporter);
         issue.setIssueProject(project);
@@ -112,13 +112,18 @@ public class ProjectController {
         issue.setStarted(new Timestamp(issueDto.getStarted().getTime()));
         issue.setDeadline(new Timestamp(issueDto.getDeadline().getTime()));
         issue.setProjectParticipants(issueDto.getUserIds().stream()
-                .map(userId -> projectParticipantRepository.save(
-                        ProjectParticipant.builder()
-                                .user(userRepository.getOne(userId))
-                                .project(project)
-                                .projectRole(ProjectRole.DEVELOPER)
-                                .build()
-                ))
+                .map(userId -> {
+                    if (projectParticipantsIds.contains(userId)) {
+                        return projectParticipantRepository.getByUserId(userId);
+                    } else {
+                        return projectParticipantRepository.save(
+                                ProjectParticipant.builder()
+                                        .user(userRepository.getOne(userId))
+                                        .project(project)
+                                        .projectRole(ProjectRole.DEVELOPER)
+                                        .build());
+                    }
+                })
                 .collect(Collectors.toList())
         );
         issue.setIssueStatus(IssueStatus.TO_DO);
