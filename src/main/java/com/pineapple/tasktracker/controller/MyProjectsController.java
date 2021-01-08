@@ -65,11 +65,23 @@ public class MyProjectsController {
 			}
 		}
 
+		List<Issue> notCompletedIssues = new ArrayList<>();
+		List<Issue> completedIssues = new ArrayList<>();
+		for (Issue i: issues) {
+			if (i.getIssueStatus() == IssueStatus.COMPLETE) {
+				completedIssues.add(i);
+			} else {
+				notCompletedIssues.add(i);
+			}
+		}
+
 		model.addAttribute("projects", projects);
 		model.addAttribute("issues", issues);
 		model.addAttribute("users", users);
 		model.addAttribute("statusList", new IssueStatus[] {IssueStatus.TO_DO, IssueStatus.IN_PROGRESS, IssueStatus.READY_FOR_TESTING, IssueStatus.COMPLETE, IssueStatus.OUTDATED});
 		model.addAttribute("username", username);
+		model.addAttribute("notCompletedIssues", notCompletedIssues);
+		model.addAttribute("completedIssues", completedIssues);
 
 		return "site/myprojects";
 	}

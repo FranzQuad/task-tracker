@@ -106,10 +106,18 @@
                     <hr style="width: 100%">
                     <div class="row mx-0" style="width: 100%;">
                         <div style="width: 50%; height: 77.4vh; overflow-y: scroll;">
-                            <#include '../components/issues_cycle.ftl'>
+                            <ul class="list-group list-group-flush">
+                                <#foreach issue in notCompletedIssues>
+                                    <#include '../components/card.ftl'>
+                                </#foreach>
+                            </ul>
                         </div>
                         <div style="width: 50%; height: 77.4vh; overflow-y: scroll;">
-                            <#include '../components/issues_cycle.ftl'>
+                            <ul class="list-group list-group-flush">
+                                <#foreach issue in completedIssues>
+                                    <#include '../components/card.ftl'>
+                                </#foreach>
+                            </ul>
                         </div>
                     </div>
                 </div>

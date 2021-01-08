@@ -117,12 +117,12 @@
                                 <div class="col">
                                     <form action="/project/${project.id}/delete-participant/${projectparticipant.id}" method="post">
                                         <button type="submit" class="btn btn-danger" style="width: 80px;
-                    height: 35px;" data-toggle="modal" data-target="#deleteParticipant${projectparticipant.id}">Delete</button>
+                    height: 35px;"> <!--data-toggle="modal" data-target="#deleteParticipant"-->Delete</button>
 
                                         <!-- Delete participant modal window -->
-                                        <div id="deleteParticipant${projectparticipant.id}" class="modal fade" role="dialog">
+                                        <!--<div id="deleteParticipant${projectparticipant.id}" class="modal fade" role="dialog">
                                             <div class="modal-dialog">
-                                                <!-- Modal content-->
+                                                 Modal content
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Are you sure?</h4>
@@ -133,7 +133,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </form>
                                 </div>
                                 <div class="col">

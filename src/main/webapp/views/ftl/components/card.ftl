@@ -23,23 +23,21 @@
             <strong>Status:</strong>
             <p>${issue.getIssueStatus()}</p>
 
-            <strong>Priority:</strong>
-            <p>
-                <#if issue.issuePriority??>
-                    ${issue.issuePriority}
-                <#else>
-                    <strong style="color: red">Not specified!</strong>
-                </#if>
-            </p>
 
-            <strong>Severity:</strong>
-            <p>
-                <#if issue.issueSeverity??>
+            <#if issue.issuePriority??>
+                <strong>Priority:</strong>
+                <p>
+                    ${issue.issuePriority}
+                </p>
+            </#if>
+
+            <#if issue.issueSeverity??>
+                <strong>Severity:</strong>
+                <p>
                     ${issue.issueSeverity}
-                <#else>
-                    <strong style="color: red">Not specified!</strong>
-                </#if>
-            </p>
+                </p>
+            </#if>
+
             <a href="/issue/${issue.id}" class="btn btn-primary float-right">Open</a>
         </div>
     </div>

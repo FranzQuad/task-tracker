@@ -124,7 +124,7 @@ public class ProjectController {
         issue.setProjectParticipants(issueDto.getUserIds().stream()
                 .map(userId -> {
                     if (projectParticipantsIds.contains(userId)) {
-                        return projectParticipantRepository.getByUserId(userId);
+                        return projectParticipantRepository.getFirstByUserId(userId);
                     } else {
                         return projectParticipantRepository.save(
                                 ProjectParticipant.builder()
