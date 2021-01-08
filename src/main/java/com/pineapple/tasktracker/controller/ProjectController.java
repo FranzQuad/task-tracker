@@ -207,20 +207,21 @@ public class ProjectController {
         return "redirect:/project/{projectId}";
     }
 
-
-    /*
-    TODO: Не доделано, проект не удаляется из-за issue participants
-     */
     @PostMapping(value = "/project/{projectId}/delete")
     public String deleteProject(@PathVariable Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
-        List<Issue> projectIssues = issueRepository.findByIssueProject(project);
-        List<ProjectParticipant> projectParticipants = projectParticipantRepository.findAllByProject(project);
 
-        projectParticipantRepository.deleteAll(projectParticipants);
-        issueRepository.deleteAll(projectIssues);
         projectRepository.delete(project);
 
         return "redirect:/myprojects";
+    }
+
+    @PostMapping(value = "/project/{projectId}/delete-participant/{partId}")
+    public String deleteParticipant(@PathVariable Long projectId, @PathVariable Long partId) {
+        ProjectParticipant projectParticipant = projectParticipantRepository.findById(partId).orElseThrow();
+        projectParticipantRepository.delete(projectParticipant);
+        System.out.println("Hello world!");
+
+        return "redirect:/project/{projectId}";
     }
 }
