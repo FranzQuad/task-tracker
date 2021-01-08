@@ -29,7 +29,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">New project</h4>
                 </div>
-                <form action="add-project" method="post">
+                <form action="/add-project" method="post">
                     <div class="modal-body">
                         <!-- Name -->
                         <div class="input-group mb-3" style="width: 100%;">
@@ -91,7 +91,7 @@
     </div>
 
     <!-- Modal -->
-    <form action="project/add-issue" method="post">
+    <form action="/project/add-issue" method="post">
         <div id="newTask" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                 <!-- Modal content-->

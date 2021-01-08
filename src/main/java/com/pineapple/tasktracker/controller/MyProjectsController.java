@@ -52,16 +52,13 @@ public class MyProjectsController {
 
   
 		for (Issue issue: issues) {
-			if ((issue.getDeadline() != null ) && (issue.getIssueStatus() != IssueStatus.COMPLETE))
-			{
+			if ((issue.getDeadline() != null) && (issue.getIssueStatus() != IssueStatus.COMPLETE)) {
 				Date date = new Date();
 				Timestamp currentDate = new Timestamp(date.getTime());
-				if ((issue.getIssueStatus() == IssueStatus.OUTDATED) && (currentDate.compareTo(issue.getDeadline()) < 0))
-				{
+				if ((issue.getIssueStatus() == IssueStatus.OUTDATED) && (currentDate.compareTo(issue.getDeadline()) < 0)) {
 					issue.setIssueStatus(IssueStatus.TO_DO);
 				}
-				if ((issue.getIssueStatus() != IssueStatus.COMPLETE) && (currentDate.compareTo(issue.getDeadline()) > 0))
-				{
+				if ((issue.getIssueStatus() != IssueStatus.COMPLETE) && (currentDate.compareTo(issue.getDeadline()) > 0)) {
 					issue.setIssueStatus(IssueStatus.OUTDATED);
 				}
 				issueRepository.save(issue);

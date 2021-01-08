@@ -38,16 +38,13 @@ public class ProjectController {
         Project project = projectRepository.findById(id).orElseThrow();
 
         for (Issue issue: project.getIssues()) {
-            if ((issue.getDeadline() != null ) && (issue.getIssueStatus() != IssueStatus.COMPLETE))
-            {
+            if ((issue.getDeadline() != null) && (issue.getIssueStatus() != IssueStatus.COMPLETE)) {
                 Date date = new Date();
                 Timestamp currentDate = new Timestamp(date.getTime());
-                if ((issue.getIssueStatus() == IssueStatus.OUTDATED) && (currentDate.compareTo(issue.getDeadline()) < 0))
-                {
-                        issue.setIssueStatus(IssueStatus.TO_DO);
+                if ((issue.getIssueStatus() == IssueStatus.OUTDATED) && (currentDate.compareTo(issue.getDeadline()) < 0)) {
+                    issue.setIssueStatus(IssueStatus.TO_DO);
                 }
-                if ((issue.getIssueStatus() != IssueStatus.COMPLETE) && (currentDate.compareTo(issue.getDeadline()) > 0))
-                {
+                if ((issue.getIssueStatus() != IssueStatus.COMPLETE) && (currentDate.compareTo(issue.getDeadline()) > 0)) {
                     issue.setIssueStatus(IssueStatus.OUTDATED);
                 }
                 issueRepository.save(issue);
@@ -64,6 +61,7 @@ public class ProjectController {
         for (Issue i : issues) {
             if (i.getIssueStatus() != IssueStatus.COMPLETE) {
                 allTasksCompleted = false;
+                break;
             }
         }
 
@@ -174,6 +172,7 @@ public class ProjectController {
 
     @PostMapping(value = "/project/{projectId}/edit-participant/{partId}")
     public String editParticipant(@PathVariable Long projectId, @PathVariable Long partId, @RequestParam(value = "role") String role) {
+        System.out.println("Edit!!!!");
         ProjectParticipant projectParticipant = projectParticipantRepository.findById(partId).orElseThrow();
 
         projectParticipant.setProjectRole(ProjectRole.valueOf(role));

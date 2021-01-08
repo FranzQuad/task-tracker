@@ -10,10 +10,8 @@ import javax.persistence.*;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProjectParticipant extends AbstractEntity {
-
-	public ProjectParticipant() {
-	}
 
 	@Column
 	@Enumerated(EnumType.STRING)
