@@ -53,11 +53,7 @@ public class Issue extends AbstractEntity {
 			fetch = FetchType.LAZY)
 	private List<Issue> childIssues;
 
-	@JoinTable(
-			name = "issue_participant",
-			joinColumns = @JoinColumn(name = "issue_id"),
-			inverseJoinColumns = @JoinColumn(name = "participant_id"))
-	@ManyToMany
+	@ManyToMany(mappedBy = "issues")
 	private List<ProjectParticipant> projectParticipants;
 
 	@JoinColumn(name = "project_id")

@@ -4,6 +4,7 @@ import com.pineapple.tasktracker.model.enums.ProjectRole;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table
 @Entity
@@ -24,6 +25,9 @@ public class ProjectParticipant extends AbstractEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	@ManyToMany(cascade = CascadeType.REMOVE)
+	private List<Issue> issues;
 
 	@Override
 	public boolean equals(Object o)
