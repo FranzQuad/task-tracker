@@ -4,10 +4,7 @@ import com.pineapple.tasktracker.model.enums.IssueStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -34,10 +31,10 @@ public class Project extends AbstractEntity {
     @Column
     private Timestamp finished;
 
-    @OneToMany(mappedBy = "issueProject")
+    @OneToMany(mappedBy = "issueProject", cascade = CascadeType.REMOVE)
     private List<Issue> issues;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
     private List<ProjectParticipant> projectParticipants;
 
     public long getNotCompletedTasksCount() {
