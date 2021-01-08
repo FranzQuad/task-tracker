@@ -109,8 +109,18 @@ public class ProjectController {
         issue.setName(issueDto.getName());
         issue.setDescription(issueDto.getDescription());
         issue.setCreated(new Timestamp(new Date().getTime()));
-        issue.setStarted(new Timestamp(issueDto.getStarted().getTime()));
-        issue.setDeadline(new Timestamp(issueDto.getDeadline().getTime()));
+
+        if (issue.getStarted() != null) {
+            issue.setStarted(new Timestamp(issueDto.getStarted().getTime()));
+        } else {
+            issue.setStarted(null);
+        }
+        if (issue.getDeadline() != null) {
+            issue.setDeadline(new Timestamp(issueDto.getDeadline().getTime()));
+        } else {
+            issue.setDeadline(null);
+        }
+
         issue.setProjectParticipants(issueDto.getUserIds().stream()
                 .map(userId -> {
                     if (projectParticipantsIds.contains(userId)) {
@@ -177,12 +187,22 @@ public class ProjectController {
 
     @PostMapping(value = "/project/{projectId}/edit-participant/{partId}")
     public String editParticipant(@PathVariable Long projectId, @PathVariable Long partId, @RequestParam(value = "role") String role) {
-        System.out.println("Edit!!!!");
+
         ProjectParticipant projectParticipant = projectParticipantRepository.findById(partId).orElseThrow();
 
         projectParticipant.setProjectRole(ProjectRole.valueOf(role));
 
         projectParticipantRepository.save(projectParticipant);
+
+        return "redirect:/project/{projectId}";
+    }
+
+    @PostMapping(value = "/project/{projectId}/delete-participant/{partId}")
+    public String deleteParticipant(@PathVariable Long projectId, @PathVariable Long partId) {
+
+        ProjectParticipant projectParticipant = projectParticipantRepository.findById(partId).orElseThrow();
+
+        projectParticipantRepository.delete(projectParticipant);
 
         return "redirect:/project/{projectId}";
     }
@@ -218,14 +238,5 @@ public class ProjectController {
         projectRepository.delete(project);
 
         return "redirect:/myprojects";
-    }
-
-    @PostMapping(value = "/project/{projectId}/delete-participant/{partId}")
-    public String deleteParticipant(@PathVariable Long projectId, @PathVariable Long partId) {
-        ProjectParticipant projectParticipant = projectParticipantRepository.findById(partId).orElseThrow();
-        projectParticipantRepository.delete(projectParticipant);
-        System.out.println("Hello world!");
-
-        return "redirect:/project/{projectId}";
     }
 }
