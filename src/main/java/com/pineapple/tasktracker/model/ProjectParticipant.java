@@ -24,4 +24,14 @@ public class ProjectParticipant extends AbstractEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o instanceof ProjectParticipant)
+		{
+			return this.getId().equals(((ProjectParticipant) o).getId());
+		}
+		return false;
+	}
 }

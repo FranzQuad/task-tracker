@@ -75,4 +75,14 @@ public class Issue extends AbstractEntity {
 	@Column
 	@Enumerated(EnumType.STRING)
 	private IssueSeverity issueSeverity;
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o instanceof Issue)
+		{
+			return this.getId().equals(((Issue) o).getId());
+		}
+		return false;
+	}
 }

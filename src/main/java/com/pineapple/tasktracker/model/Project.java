@@ -42,4 +42,14 @@ public class Project extends AbstractEntity {
                 .filter(issue -> issue.getIssueStatus() != IssueStatus.COMPLETE)
                 .count();
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o instanceof Project)
+        {
+            return this.getId().equals(((Project) o).getId());
+        }
+        return false;
+    }
 }
